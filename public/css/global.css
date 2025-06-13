@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    background-color:white;
+    line-height: 1.6;
+    }
+
+.container, .container-fluid {
+      max-width: 1440px;
+      padding-left: 120px;
+      padding-right: 120px;
+      margin: 0 auto;
+    }
+
+.container-content{
+  margin: 0 auto;
+  padding: 40px 60px;
+  background-color: #d1e7ff; /* Warna biru */
+  color: var(--text-dark-1); /* Warna teks agar kontras dengan latar */
+  border-radius: 16px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tablet: width <= 768px */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .container-content {
+    padding: 60px 30px;
+  }
+  .container-content h1 {
+  font-size: clamp(24px, 5vw, 36px);
+}
+}
+
+/* Mobile: width <= 576px */
+@media (max-width: 576px) {
+  .container{
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .container-content {
+    padding: 60px 20px;
+  }
+  .container-content h1 {
+    font-size: 24px;
+  }
+
+  .container-content p {
+    font-size: 16px;
+  }
+  .container-content {
+    text-align: left;
+  }
+}
+
+/* ========== ROOT VARIABEL (GLOBAL COLORS & FONT) ========== */
+:root {
+  --primary-color: #005FCA;      
+  --secondary-color: #FFA500; 
+  --primary-100-color: #CCE4FF;
+  --primary-300-color: #66ADFF;
+  --primary-500-color: #005FCA;
+  --primary-700-color: #004799;
+  --secondary-100-color: #FFEDCC;
+  --secondary-300-color: #FFC966;
+  --secondary-500-color: #FFA600;
+  --secondary-700-color: #996300;
+  --success-color: #198754;      
+  --danger-color: #dc3545;
+  --warning-color: #FFC107;
+  --info-color: #0D6EFD;
+  --bg-white-color: #ffff; 
+  --bg-light-color: #f5f5f5;        
+  --dark-color: #212529;
+  --light-color: #ffffff;
+  --text-light: #ffff;
+  --text-dark-1: #60697B;
+  --text-dark-2: #343F52;
+
+  --font-primary: 'Montserrat';
+  --font-secondary: 'Inter';
+
+  --btn-sm-padding: 8px 16px; 
+  --btn-md-padding: 12px 20px;
+  --btn-lg-padding: 16px 24px;
+
+  --transition-fast: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ========== TYPOGRAPHY GLOBAL ========== */
+
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+}
+
+p, label, input, button {
+  font-family: var(--font-secondary);
+  font-size: 1rem;
+}
+  
+/* ========== LINK STYLE ========== */
+a {
+  text-decoration: none;
+  color: var(--primary-color);
+  transition: var(--transition-fast);
+}
+a:hover {
+  color: var(--accent-color);
+}
+
+/* ========== BUTTON GLOBAL ========== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Jarak antara ikon dan teks */
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-700-color);
+  color: var(--light-color);
+}
+
+.btn-primary:focus {
+  background-color: var(--primary-700-color);
+  color: var(--light-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: var(--text-light);
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-700-color);
+}
+
+.btn-secondary:focus {
+  background-color: var(--primary-700-color);
+  color: var(--light-color);
+}
+
+.btn-tertiary {
+  color: var(--primary-color);
+}
+
+.btn-tertiary:hover {
+  background-color: var(--primary-700-color);
+  color: var(--light-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-tertiary:focus {
+  background-color: var(--primary-700-color);
+  color: var(--light-color);
+}
+
+/* Ikon di dalam tombol */
+.btn i, .btn svg {
+  font-size: 18px;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+/* Ukuran */
+.btn-sm {
+  padding: var(--btn-sm-padding);
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.btn-md {
+  padding: var(--btn-md-padding);
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.btn-lg {
+  padding: var(--btn-lg-padding);
+  font-size: 18px;
+  line-height: 23px;
+}
+
+.whatsapp-float {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: #25D366;
+    color: white;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    text-decoration: none;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    color: var(--bg-white-color);
+}
+
+
+
