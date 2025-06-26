@@ -17,6 +17,14 @@ class LoginController extends Controller
     }
 
     /**
+     * Override default login field (email → username)
+     */
+    public function username()
+    {
+        return 'username';
+    }
+
+    /**
      * Proses login admin.
      */
     public function login(Request $request)
@@ -33,9 +41,9 @@ class LoginController extends Controller
         // Coba login
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate(); // regenerate session untuk keamanan
-            return redirect()->route('admin.dashboard');
+            return redirect()->intended(route('admin.dashboard')); // gunakan intended
         }
-
+        
         // Jika gagal login
         return back()->withErrors([
             'username' => 'Username atau password salah!',

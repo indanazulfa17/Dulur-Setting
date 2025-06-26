@@ -4,18 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <title>Dashboard Admin</title>
+
+    {{-- Bootstrap CSS & Icons --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    {{-- Custom CSS --}}
     <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
-    <title>Dashboard Admin</title>
-    
 </head>
 <body>
-    @include('layouts.partials.navbar-admin') {{-- Navbar --}}
+
+    {{-- Navbar --}}
+    @include('layouts.partials.navbar-admin')
+
+    {{-- Konten Utama --}}
     <main>
-        @yield('content') 
+        @yield('content')
     </main>
+
+    {{-- Footer --}}
     @include('layouts.partials.footer-admin')
+
+    {{-- Bootstrap JS Bundle (cukup satu versi) --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- Toast Pop-up Success --}}
+    @if (session('success'))
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+            <div id="toastSuccess" class="toast align-items-center text-white bg-success border-0 shadow"
+                role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('success') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const toastEl = document.getElementById('toastSuccess');
+                if (toastEl) {
+                    const toast = new bootstrap.Toast(toastEl, {
+                        delay: 4000
+                    });
+                    toast.show();
+                }
+            });
+        </script>
+    @endif
+
+    {{-- Fungsi Global: Modal Delete --}}
+    <script>
+        function showDeleteModal(actionUrl) {
+            const deleteForm = document.getElementById('deleteForm');
+            if (!deleteForm) {
+                console.error("Form tidak ditemukan");
+                return;
+            }
+
+            deleteForm.setAttribute('action', actionUrl);
+
+            const modalElement = document.getElementById('confirmDeleteModal');
+            if (!modalElement) {
+                console.error("Modal tidak ditemukan");
+                return;
+            }
+
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+        }
+    </script>
+
+    {{-- Slot untuk Script Halaman --}}
+    @stack('scripts')
+
 </body>
 </html>

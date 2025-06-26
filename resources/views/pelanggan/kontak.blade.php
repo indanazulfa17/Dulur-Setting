@@ -6,6 +6,17 @@
 
 <header>
     <h1>Kontak</h1>
+    {{-- Breadcrumb --}}
+        <nav aria-label="breadcrumb" class="breadcrumb-products d-flex justify-content-center mb-2">
+            <ol class="breadcrumb bg-transparent p-2">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('pelanggan.beranda') }}">
+                        <i class="fas fa-home me-1"></i> Beranda
+                    </a>
+                </li>
+                <li class="breadcrumb-item active text-white" aria-current="page"> Kontak</li>
+            </ol>
+        </nav>
   </header>
 
 <!-- Kontak Info -->

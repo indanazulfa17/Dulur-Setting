@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $fillable = [
         'product_id',
-        'name',
+        'customer_name', // sesuaikan dengan form input dan validasi
         'email',
         'whatsapp',
         'size_id',
@@ -16,13 +16,22 @@ class Order extends Model
         'lamination_id',
         'quantity',
         'custom_description',
+        'dynamic_fields',
         'design_file',
-        'price',
+        'total_price',   // gunakan total_price jika sudah pakai itu di controller
         'status',
         'payment_status',
         'payment_proof',
+        'shipping_method',   // jika pakai shipping method
+        'shipping_address',  // jika pakai alamat kirim
     ];
 
+     // ✅ Cast ke array (untuk json encode/decode otomatis)
+    protected $casts = [
+        'dynamic_fields' => 'array',
+        'form_fields' => 'array',
+    ];
+    
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -43,5 +52,3 @@ class Order extends Model
         return $this->belongsTo(Lamination::class);
     }
 }
-
-

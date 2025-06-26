@@ -4,55 +4,113 @@ namespace App\Http\Controllers\Pelanggan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use App\Models\Material;
-use App\Models\Size;
-use App\Models\Lamination;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    
     /**
      * Tampilkan detail produk dan form pemesanan.
      */
-   public function show($id)
-{
-    $product = Product::with(['category', 'mainImage', 'images'])->findOrFail($id);
-    $materials = Material::all();
-    $sizes = Size::all();
-    $laminations = Lamination::all();
+    public function show($id)
+    {
+        $product = Product::with([
+            'category',
+            'mainImage',
+            'images',
+            'materials',
+            'sizes',
+            'laminations',
+        ])->findOrFail($id);
 
-    // Decode kolom form_fields (berformat JSON) jadi array
-    $formFields = json_decode($product->form_fields, true);
+        // Ambil dan parsing form_fields dari produk (jika ada)
+        $formFields = [];
+        if (!empty($product->form_fields)) {
+            $decoded = json_decode($product->form_fields, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $formFields = $decoded;
+            }
+        }
 
-    // Ambil produk terkait (dari kategori yang sama, kecuali produk saat ini)
-    $relatedProducts = Product::where('category_id', $product->category_id)
-        ->where('id', '!=', $product->id)
-        ->latest()
-        ->take(3)
-        ->get();
+        $relatedProducts = Product::where('category_id', $product->category_id)
+            ->where('id', '!=', $product->id)
+            ->latest()
+            ->take(3)
+            ->get();
 
-    // Nama view form khusus (jika ada)
-    $viewName = 'pelanggan.products.forms.' . $product->slug;
-
-    if (view()->exists($viewName)) {
-        return view($viewName, compact(
-            'product', 'materials', 'sizes', 'laminations', 'formFields', 'relatedProducts'
+        return view('pelanggan.products.show', compact(
+            'product',
+            'formFields',
+            'relatedProducts'
         ));
     }
 
-    return view('pelanggan.products.show', compact(
-        'product', 'materials', 'sizes', 'laminations', 'formFields', 'relatedProducts'
-    ));
-}
-
-
     /**
-     * Menyimpan pesanan.
+     * Simpan pemesanan produk.
      */
-    public function order(Request $request, $id)
+    public function preorder(Request $request, $id)
     {
-        // TODO: Validasi dan simpan data pesanan di sini
-        // kamu bisa validasi dynamic fields juga di sini
+        $product = Product::findOrFail($id);
+
+        // Ambil dan parsing form_fields
+        $formFields = [];
+        if (!empty($product->form_fields)) {
+            $decoded = json_decode($product->form_fields, true);
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                $formFields = $decoded;
+            }
+        }
+
+        $rules = [
+            'material_id'        => 'required|exists:materials,id',
+            'size_id'            => 'required|exists:sizes,id',
+            'lamination_id'      => 'required|exists:laminations,id',
+            'quantity'           => 'required|integer|min:1',
+            'design_input_type'  => 'required|in:upload,link',
+            'custom_description' => 'nullable|string',
+        ];
+
+        // Validasi berdasarkan input desain
+        if ($request->input('design_input_type') === 'upload') {
+            $rules['design_file'] = 'required|file|mimes:pdf,jpg,jpeg,png|max:5120';
+        } else {
+            $rules['design_link'] = 'required|url';
+        }
+
+        // Validasi form dinamis
+        $dynamicFields = [];
+        foreach ($formFields as $field) {
+            $name = $field['name'];
+            $required = !empty($field['required']) ? 'required' : 'nullable';
+            $rules[$name] = $required;
+            $dynamicFields[$name] = $request->input($name);
+        }
+
+        $validated = $request->validate($rules);
+
+        // Simpan order
+        $order = Order::create([
+            'product_id'         => $product->id,
+            'material_id'        => $validated['material_id'],
+            'size_id'            => $validated['size_id'],
+            'lamination_id'      => $validated['lamination_id'],
+            'quantity'           => $validated['quantity'],
+            'custom_description' => $validated['custom_description'] ?? null,
+            'dynamic_fields'     => $dynamicFields,
+            'design_file'        => null, // default null
+            'status'             => 'menunggu',
+            'payment_status'     => 'belum_bayar',
+        ]);
+
+        // Upload file jika ada
+        if (
+            $validated['design_input_type'] === 'upload' &&
+            $request->hasFile('design_file')
+        ) {
+            $path = $request->file('design_file')->store('designs', 'public');
+            $order->update(['design_file' => $path]);
+        }
+
+        return redirect()->route('pelanggan.beranda')->with('success', 'Pesanan berhasil dikirim!');
     }
 }

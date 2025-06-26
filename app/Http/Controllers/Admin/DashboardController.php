@@ -10,21 +10,19 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
-    {
-        return view('admin.dashboard', [
-            'totalOrders' => Order::count(),
-            'totalProducts' => Product::count(),
-            'totalUsers' => User::count(),
-            'totalRevenue' => Order::sum('total_price'),
-            'latestOrders' => Order::with('product') // supaya relasi bisa dipakai di blade
-    ->where('status', '!=', 'draft')     // hanya pesanan yang valid
-    ->latest()
-    ->take(5)
-    ->get(),
+    // Controller - DashboardController
+public function index()
+{
+    $ordersQuery = Order::where('status', '!=', 'draft');
 
-        ]);
-        
-    }
+    return view('admin.dashboard', [
+        'totalOrders' => $ordersQuery->count(),
+        'totalProducts' => Product::count(),
+        'totalUsers' => User::count(),
+        'totalRevenue' => $ordersQuery->sum('total_price'),
+        'latestOrders' => $ordersQuery->with('product')->latest()->take(5)->get(),
+    ]);
+}
+
 }
 

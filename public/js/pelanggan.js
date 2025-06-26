@@ -49,6 +49,10 @@ function renderProducts() {
     (currentCategory === 'all' || p.category === currentCategory) &&
     p.name.toLowerCase().includes(searchValue)
   );
+console.log("Total allProducts:", allProducts.length);
+console.log("Total filtered:", filtered.length);
+console.log("Visible count:", visibleCount);
+console.log("Filtered Products:", filtered.map(p => p.name));
 
   const visibleItems = filtered.slice(0, visibleCount);
 

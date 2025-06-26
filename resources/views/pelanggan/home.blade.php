@@ -64,7 +64,7 @@
   <div class="container-content" data-animate>
     <!-- Summary -->
     <h4 class="mb-4">Butuh bantuan mendesain?</h4>
-    <p>Dulur Setting menyediakan layanan jasa desain grafis. Keinginanmu akan kami wujudkan. Konsultasikan lebih lanjut melalui WhatsApp kami.</p>
+    <p> Ingin desain sesuai keinginanmu? Bisa! Dulur Setting menyediakan layanan jasa desain grafis, termasuk desain kustom. Konsultasikan kebutuhanmu, dan kami siap bantu mewujudkannya lewat WhatsApp.</p>
     <a href="https://wa.me/62895612811600" class="btn btn-secondary btn-md">
       <i class="bi bi-whatsapp"></i> Konsultasikan via WhatsApp
     </a>

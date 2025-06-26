@@ -7,6 +7,17 @@
 
   <header>
     <h1>Tentang Kami</h1>
+    {{-- Breadcrumb --}}
+        <nav aria-label="breadcrumb" class="breadcrumb-products d-flex justify-content-center mb-2">
+            <ol class="breadcrumb bg-transparent p-2">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('pelanggan.beranda') }}">
+                        <i class="fas fa-home me-1"></i> Beranda
+                    </a>
+                </li>
+                <li class="breadcrumb-item active text-white" aria-current="page"> Tentang Kami</li>
+            </ol>
+        </nav>
   </header>
 
   <div class="container-custom">
