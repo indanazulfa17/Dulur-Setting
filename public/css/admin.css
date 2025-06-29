@@ -1,66 +1,90 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+main {
+            flex: 1;
+        }
+
 /* Sidebar dasar */
 .sidebar {
-    background-color: var(--bg-light);
-    color: var(--text-dark-1);
+    background-color: #ffffff; /* Bersih & modern */
+    color: #333333;
     height: 100vh;
-    transition: all 0.3s ease;
+    border-right: 1px solid #e5e5e5;
     overflow-y: auto;
-    padding-top: 1rem;
-
+    padding: 1rem 1rem 2rem; /* Tambah padding bawah supaya tidak mentok */
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05); /* Sedikit lebih soft */
+    transition: all 0.3s ease;
 }
 
 /* Link di sidebar */
 .sidebar .nav-link {
-    color: #333;
+    color: #333333;
     font-weight: 500;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+    padding: 10px 16px;
+    border-radius: 6px; /* Sedikit lebih subtle */
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* Hover link */
 .sidebar .nav-link:hover {
-    background-color: var(--primary-color); /* aku ubah biar kontras */
-    color: white;
+    background-color: rgba(0, 95, 202, 0.1); /* Lembut & sesuai primary */
+    color: #005FCA;
 }
 
 /* Link aktif */
 .sidebar .nav-link.active {
-    background-color: var(--primary-color);
-    color: white !important;
+    background-color: #005FCA;
+    color: #ffffff !important;
+    font-weight: 600; /* Sedikit tebal biar menonjol */
 }
 
-/* Icon pada link aktif */
-.sidebar .nav-link.active span[data-feather] {
-    color: white;
+/* Icon aktif */
+.sidebar .nav-link.active span[data-feather],
+.sidebar .nav-link.active i {
+    color: #ffffff;
 }
 
-/* Icon regular */
-.sidebar .nav-link span[data-feather] {
-    color: var(--text-dark-1);
+/* Icon normal */
+.sidebar .nav-link span[data-feather],
+.sidebar .nav-link i {
+    color: #005FCA;
+    transition: color 0.2s ease;
 }
 
-/* Mode collapse sidebar */
+/* Hover icon */
+.sidebar .nav-link:hover span[data-feather],
+.sidebar .nav-link:hover i {
+    color: #005FCA;
+}
+
+/* Sidebar collapse */
 .sidebar-collapsed .sidebar {
     margin-left: -250px;
-    overflow: hidden;
 }
 
-/* Main content ketika sidebar collapse */
 .sidebar-collapsed #mainContent {
-    width: 100% !important;
     margin-left: 0 !important;
+    width: 100% !important;
 }
 
-/* Transisi smooth untuk sidebar dan konten utama */
+/* Smooth transisi */
 .sidebar,
 #mainContent {
     transition: all 0.3s ease;
 }
+
+
 
 
 .main {
@@ -82,18 +106,117 @@
     flex-wrap: wrap;
 }
 
-.hero{
-    max-width: 100%;
-    padding: 30px 30px;
-    border-radius: 12px;
-    background: linear-gradient(45deg, var(--primary-color), var(--primary-700-color));
-    color: var(--text-light);
+.hero-card {
+  position: relative;
+  background-color: #005FCA;
+  color: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  overflow: hidden;
 }
+
+/* Pola hanya di sudut kanan atas */
+.hero-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+   /* Atur seberapa lebar pola */
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpolygon fill-rule='evenodd' points='8 4 12 6 8 8 6 12 4 8 0 6 4 4 6 0 8 4'/%3E%3C/g%3E%3C/svg%3E");
+
+  background-repeat: repeat;
+  background-size: 24px 24px;
+  opacity: 0.3;  /* transparansi tambahan */
+  pointer-events: none;
+}
+
+/* Tambah fade-out gradient (opsional) */
+.hero-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  background: linear-gradient(to left, #005FCA 0%, transparent 100%);
+  pointer-events: none;
+}
+
+
+.hero-card h2 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.hero-card p {
+    color: #f0f0f0;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.hero-card .icon-wrapper {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+.container-produk {
+      max-width: 1440px;
+      padding-left: 40px;
+      padding-right: 40px;
+      margin: 0 auto;
+    }
 .heading {
-    padding: 40px 0 20px;
+    padding: 20px 0px;
     font-weight: 600;
-    color: var(--text-dark-2) /* warna biru tua */
+    color: var(--primary-500-color) /* warna biru tua */
 }
+.custom-breadcrumb .breadcrumb-item a {
+    text-decoration: none;
+    color: var(--primary-500-color); /* Bootstrap primary */
+  border: none;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.custom-breadcrumb .breadcrumb-item a:hover {
+    text-decoration: underline;
+    color: var(--primary-300-color); /* Darker primary */
+ 
+}
+.breadcrumb-back-link {
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Inter';
+    color: var(--primary-color);
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.breadcrumb-back-link:hover {
+    color: var(--primary-300-color);
+    text-decoration: underline;
+}
+
+.table-row-hover:hover {
+        background-color: #f8f9fa;
+        transition: background-color 0.3s ease;
+    }
 
 .summary-card {
     background: #fff;
@@ -114,7 +237,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     color: var(--secondary-color);
 }
 
@@ -126,12 +249,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 20px;
     color: var(--primary-color);
 }
 
 .bg-pesanan {
-    background-color: var(--secondary-100-color) /* kuning */
+    background-color: var(--secondary-100-color); /* kuning */
 }
 
 .bg-produk {
@@ -148,6 +271,133 @@
     font-size: 14px;
     color: #666;
 }
+
+.card-head {
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-light-color);
+  color: var(--primary-700-color);
+  font-weight: 600;
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+.card {
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 1rem;
+}
+.form{
+    padding: 0.5rem;
+}
+.form-label {
+  font-weight: 500; /* semi-bold */
+  color: var(--text-dark-2);
+  padding-bottom: 0.5rem;
+}
+.form-control{
+    color: var(--text-dark-1);
+}
+.table-label{
+    font-weight: 500; /* semi-bold */
+    color: var(--text-dark-2);
+}
+
+
+    .form-group input {
+        margin-bottom: 0.25rem;
+    }
+
+
+#imagePreview img {
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+/* Modal */
+.custom-modal {
+  border-radius: 12px;
+  padding: 20px 10px;
+  border: none;
+}
+.custom-modal .modal-title {
+  font-weight: 600;
+  color: var(--text-dark-2);
+}
+.custom-modal p {
+  margin: 0;
+  color: var(--text-dark-1); 
+}
+.custom-modal .modal-footer {
+  background: none;
+}
+.custom-modal .btn-cancel {
+  background-color: #e5e7eb; /* Tailwind gray-200 */
+  color: var(--text-dark-2); 
+  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.custom-modal .btn-cancel:hover {
+  background-color: var(--secondary-color); 
+  color: var(--text-light);
+}
+
+/* Modal Simpan Produk */
+.custom-modal .modal-simpan {
+  text-align: center;
+  font-size: 40px;
+  color: var(--primary-color); 
+  margin-top: 10px;
+}
+.custom-modal .btn-simpan {
+  background-color: var(--primary-color); 
+  color: var(--text-light);
+  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.custom-modal .btn-simpan:hover {
+  background-color: var(--primary-700-color); 
+  color: var(--text-light);
+}
+
+/* Modal Hapus Produk */
+.custom-modal .modal-hapus {
+  text-align: center;
+  font-size: 40px;
+  margin-top: 10px;
+}
+.custom-modal .btn-hapus {
+  background-color: var(--danger-color); 
+  color: var(--text-light);
+  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.custom-modal .btn-hapus:hover {
+  background-color: #bb2d3b;
+}
+
 
 
 

@@ -9,38 +9,42 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar -->
-        <nav id="sidebar" class="col-md-2 d-none d-md-block sidebar pt-3 custom-sidebar">
-            <div class="sidebar-sticky px-3">
-                <h6 class="sidebar-heading text-muted font-weight-bold small mb-4">Menu Admin</h6>
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
-                            <span data-feather="home"></span> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
-                            <i class="bi bi-cart-check"></i><span data-feather="shopping-cart"></span> Pesanan
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
-                            <i class="bi bi-box-seam"></i><span data-feather="box"></span> Produk
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+<nav id="sidebar" class="col-md-2 d-none d-md-block sidebar pt-4 custom-sidebar">
+  <div class="sidebar-sticky px-3">
+    <h6 class="sidebar-heading text-uppercase text-muted fw-bold small mb-4">Menu Admin</h6>
+    <ul class="nav flex-column gap-1">
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+          <span data-feather="home" class="me-2"></span> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+          <i class="bi bi-cart-check me-2"></i> Pesanan
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
+          <i class="bi bi-box-seam me-2"></i> Produk
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
 
         <!-- Main Content -->
         <main id="mainContent" role="main" class="col-md-10 ml-sm-auto px-4 pt-3 bg-white">
-            <div class="hero d-flex">
-                <img src="{{ asset('images/dashboard/hero-img.svg') }}" alt="Pilih Produk" width="80" height="80">
-                <div class="ms-4">
-                    <h2 class="mb-2">Hi Admin Dulur Setting!</h2>
-                    <p class="mb-2">Kelola pesanan dan produk pelanggan di sini.</p>
-                </div>
-            </div>
+           <div class="hero-card d-flex align-items-center p-4 mb-4 rounded shadow-sm">
+    <div class="icon-wrapper me-3">
+        <img src="{{ asset('images/dashboard/hero-img.svg') }}" alt="Dashboard" width="50" height="50">
+    </div>
+    <div>
+        <h2 class="mb-1 fw-semibold">Hi Admin Dulur Setting!</h2>
+        <p class="mb-0">Kelola pesanan dan produk pelanggan di sini.</p>
+    </div>
+</div>
+
 
             <h4 class="heading">Dashboard Admin</h4>
 
@@ -48,7 +52,7 @@
                 <div class="col-md-6">
                     <div class="summary-card">
                         <div class="pesanan-icon bg-pesanan">
-                            <i class="bi bi-cart-check"></i>
+                            <i class="fa-solid fa-cart-shopping"></i>
                         </div>
                         <div class="summary-value">{{ $totalOrders }}</div>
                         <div class="summary-label">Total Pesanan</div>
@@ -57,7 +61,7 @@
                 <div class="col-md-6">
                     <div class="summary-card">
                         <div class="produk-icon bg-produk">
-                            <i class="bi bi-box-seam"></i>
+                            <i class="fa-solid fa-box-open"></i>
                         </div>
                         <div class="summary-value">{{ $totalProducts }}</div>
                         <div class="summary-label">Total Produk</div>
@@ -99,12 +103,12 @@
                                     <a href="{{ route('admin.orders.show', $order->id) }}" 
                                        class="btn btn-sm btn-outline-primary" 
                                        title="Lihat Detail">
-                                        <i class="bi bi-eye"></i>
+                                        <i class="fa-regular fa-eye"></i>
                                     </a>
                                     <button class="btn btn-sm btn-outline-danger"
                                             onclick="showDeleteModal('{{ route('admin.orders.destroy', $order->id) }}')"
                                             title="Hapus">
-                                        <i class="bi bi-trash"></i>
+                                        <i class="fa-regular fa-trash-can"></i>
                                     </button>
                                 </div>
                             </td>
@@ -121,28 +125,28 @@
                 </table>
             </div>
 
-            <!-- Modal Konfirmasi Hapus -->
-            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 shadow-lg">
-                        <div class="modal-header bg-danger text-white">
-                            <h5 class="modal-title" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Yakin ingin menghapus pesanan ini?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                            <form id="deleteForm" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- resources/views/components/delete-modal.blade.php -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-hapus text-danger">
+        <i class="bi bi-trash-fill"></i>
+      </div>
+      <div class="modal-body text-center">
+        <h5 class="modal-title mb-3" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
+        <p>Yakin ingin menghapus item ini?</p>
+      </div>
+      <div class="modal-footer justify-content-center border-0">
+        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+        <form id="deleteForm" method="POST" class="d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger btn-hapus">Hapus</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
         </main>
     </div>
 </div>

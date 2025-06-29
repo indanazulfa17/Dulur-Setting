@@ -20,14 +20,23 @@
 <div class="container mt-5">
     <div class="row gx-5 mb-5">
         <div class="col-md-6">
-            <div class="border rounded p-3 text-center mx-auto mb-3" style="min-height: 320px; width: 100%; max-width: 900px;">
-                <img id="mainPreview" src="{{ asset('storage/' . ($product->mainImage->image_path ?? 'default.jpg')) }}" alt="{{ $product->name }}" style="max-height: 280px; object-fit: contain;" class="img-fluid">
+            <div class="form-pemesanan p-3 text-center mx-auto mb-3" style="min-height: 400px; width: 100%; max-width: 900px;">
+                <img id="mainPreview" src="{{ asset('storage/' . ($product->mainImage->image_path ?? 'default.jpg')) }}" alt="{{ $product->name }}"  class="img-fluid product-preview"
+     style="max-height: 280px; object-fit: contain;">
             </div>
             <div class="d-flex gap-3 justify-content-justify">
                 @foreach ($product->images as $image)
                     <img src="{{ asset('storage/' . $image->image_path) }}" class="img-thumbnail thumb {{ $loop->first ? 'active-thumb' : '' }}" style="width: 60px; height: 60px; object-fit: cover; cursor: pointer;" onclick="changeImage(this)">
                 @endforeach
             </div>
+            <!--<div class="p-3 rounded" style="background-color: #E6F2FF;">
+        <p class="mb-2 fw-semibold">Catatan :</p>
+        <ul class="mb-0 ps-3">
+            <li>File yang sudah ready</li>
+            <li>Jika file desain ada di drive anda atau jika anda ingin kustom desain, silahkan cantumkan di kolom deskripsi tambahan</li>
+            <li>Info pembayaran dan pengiriman lanjut di whatsapp admin</li>
+        </ul>
+    </div> -->
         </div>
 
         <div class="col-md-6">
@@ -35,18 +44,57 @@
                 <h4 class="mb-4">{{ $product->name }}</h4>
                 <p class="mb-3">
                     <span class="text-muted">Harga dari</span>
-                    <span class="fs-5 fw-bold text-warning">Rp{{ number_format($product->base_price, 0, ',', '.') }}</span>
+                    <span class="fs-5 fw-bold harga">Rp{{ number_format($product->base_price, 0, ',', '.') }}</span>
                 </p>
-                <h4 class="heading-form">Form Pemesanan</h4>
         
                 <form action="{{ route('pelanggan.products.preorder', $product->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
 
+
+                    {{-- Material --}}
+                    @if ($product->materials->isNotEmpty())
+                        <div class="form-group">
+                            <label for="material" class="form-label">Bahan<span class="text-danger">*</span></label>
+                            <select name="material_id" id="material" class="form-control" required>
+                                <option value="">-- Pilih Bahan --</option>
+                                @foreach ($product->materials as $material)
+                                    <option value="{{ $material->id }}" data-price="{{ $material->pivot->additional_price }}">{{ $material->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    {{-- Size --}}
+                    @if ($product->sizes->isNotEmpty())
+                        <div class="form-group">
+                            <label for="size" class="form-label">Ukuran<span class="text-danger">*</span></label>
+                            <select name="size_id" id="size" class="form-control" required>
+                                <option value="">-- Pilih Ukuran --</option>
+                                @foreach ($product->sizes as $size)
+                                    <option value="{{ $size->id }}" data-price="{{ $size->pivot->additional_price }}">{{ $size->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    {{-- Lamination --}}
+                    @if ($product->laminations->isNotEmpty())
+                        <div class="form-group">
+                            <label for="lamination" class="form-label">Laminasi<span class="text-danger">*</span></label>
+                            <select name="lamination_id" id="lamination" class="form-control" required>
+                                <option value="">-- Pilih Laminasi --</option>
+                                @foreach ($product->laminations as $lamination)
+                                    <option value="{{ $lamination->id }}" data-price="{{ $lamination->pivot->additional_price }}">{{ $lamination->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
                     {{-- Dynamic Form Fields --}}
                     @if (!empty($formFields) && is_array($formFields))
                         @foreach ($formFields as $field)
-                            <div class="mb-3">
+                            <div class="form-group">
                                 <label for="{{ $field['name'] }}" class="form-label">{{ $field['label'] }}</label>
                                 @switch($field['type'])
                                     @case('text')
@@ -82,50 +130,13 @@
                         @endforeach
                     @endif
 
-                    {{-- Material --}}
-                    @if ($product->materials->isNotEmpty())
-                        <div class="form-group">
-                            <label for="material" class="form-label">Pilih Bahan<span class="text-danger">*</span></label>
-                            <select name="material_id" id="material" class="form-control" required>
-                                <option value="">-- Pilih Bahan --</option>
-                                @foreach ($product->materials as $material)
-                                    <option value="{{ $material->id }}" data-price="{{ $material->pivot->additional_price }}">{{ $material->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-
-                    {{-- Size --}}
-                    @if ($product->sizes->isNotEmpty())
-                        <div class="form-group">
-                            <label for="size" class="form-label">Pilih Ukuran<span class="text-danger">*</span></label>
-                            <select name="size_id" id="size" class="form-control" required>
-                                <option value="">-- Pilih Ukuran --</option>
-                                @foreach ($product->sizes as $size)
-                                    <option value="{{ $size->id }}" data-price="{{ $size->pivot->additional_price }}">{{ $size->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-
-                    {{-- Lamination --}}
-                    @if ($product->laminations->isNotEmpty())
-                        <div class="form-group">
-                            <label for="lamination" class="form-label">Pilih Laminasi</label>
-                            <select name="lamination_id" id="lamination" class="form-control" required>
-                                <option value="">-- Pilih Laminasi --</option>
-                                @foreach ($product->laminations as $lamination)
-                                    <option value="{{ $lamination->id }}" data-price="{{ $lamination->pivot->additional_price }}">{{ $lamination->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    @endif
-
+                    {{-- Jumlah --}}
                     <div class="form-group">
                         <label for="quantity" class="form-label">Jumlah<span class="text-danger">*</span></label>
                         <input type="number" name="quantity" id="quantity" class="form-control" min="1" required>
                     </div>
 
+                    {{-- Option Upload Desain --}}
                     <div class="form-group">
                         <label class="form-label">Pilih Cara Mengirim Desain<span class="text-danger">*</span></label>
                         <div class="form-check">
@@ -137,28 +148,28 @@
                             <label class="form-check-label" for="linkOption">Link Google Drive / Desain Online</label>
                         </div>
                     </div>
-
                     <div class="form-group" id="uploadInput">
                         <label for="design_file" class="form-label">Upload File Desain</label>
                         <input type="file" name="design_file" id="design_file" class="form-control" accept=".pdf,.jpg,.jpeg,.png">
                     </div>
-
                     <div class="form-group d-none" id="linkInput">
                         <label for="design_link" class="form-label">Link Desain (Google Drive/dll)</label>
                         <input type="url" name="design_link" id="design_link" class="form-control" placeholder="https://drive.google.com/..." pattern="https?://.+">
                     </div>
 
+                    {{-- Deskripsi Tambahan --}}
                     <div class="form-group mb-4">
                         <label for="custom_description" class="form-label">Deskripsi Tambahan</label>
-                        <textarea name="custom_description" id="custom_description" class="form-control" rows="4" placeholder="Contoh: Ingin warna custom, ukuran tertentu, atau laminasi khusus"></textarea>
-                        <small class="text-muted">Isi jika ada permintaan khusus (warna, ukuran, posisi desain, dll)</small>
+                        <textarea name="custom_description" id="custom_description" class="form-control" rows="4" placeholder="Isi jika ada permintaan khusus"></textarea>
                     </div>
 
+                    {{-- Cek Harga --}}
                     <div class="price-check mt-3">
                         <p>Total Harga: <span id="totalHarga">Rp 0</span></p>
                         <button type="button" class="btn btn-secondary" onclick="hitungHarga()">Cek Harga</button>
                     </div>
 
+                    {{-- Button Pesan Sekarang --}}
                     <div class="text-center">
                         <button type="submit" class="btn btn-md btn-primary mt-3 w-100">Pesan Sekarang</button>
                     </div>
@@ -177,16 +188,8 @@
         </div>
     @endif
 
-    <p><strong>Durasi Pengerjaan</strong><br>{!! nl2br(e($product->description)) !!}</p>
+    <p><strong>Deskripsi Produk</strong><br>{!! nl2br(e($product->description)) !!}</p>
 
-    <div class="p-3 rounded" style="background-color: #E6F2FF;">
-        <p class="mb-2 fw-semibold">Catatan :</p>
-        <ul class="mb-0 ps-3">
-            <li>File yang sudah ready</li>
-            <li>Jika file desain ada di drive anda atau jika anda ingin kustom desain, silahkan cantumkan di kolom deskripsi tambahan</li>
-            <li>Info pembayaran dan pengiriman lanjut di whatsapp admin</li>
-        </ul>
-    </div>
 </div>
 
 <!-- Layanan Desain -->
@@ -235,12 +238,13 @@
         const laminationSelect = document.getElementById('lamination');
         const quantityInput = document.getElementById('quantity');
 
-        const materialPrice = parseFloat(materialSelect?.selectedOptions[0]?.dataset.price || 0);
-        const sizePrice = parseFloat(sizeSelect?.selectedOptions[0]?.dataset.price || 0);
-        const laminationPrice = parseFloat(laminationSelect?.selectedOptions[0]?.dataset.price || 0);
+        // Ambil harga tambahan jika ada
+        const materialPrice = materialSelect ? parseFloat(materialSelect?.selectedOptions[0]?.dataset.price || 0) : 0;
+        const sizePrice = sizeSelect ? parseFloat(sizeSelect?.selectedOptions[0]?.dataset.price || 0) : 0;
+        const laminationPrice = laminationSelect ? parseFloat(laminationSelect?.selectedOptions[0]?.dataset.price || 0) : 0;
         const quantity = parseInt(quantityInput.value || 1);
 
-        if (!materialSelect.value || !sizeSelect.value || isNaN(quantity) || quantity < 1) {
+        if ((materialSelect && !materialSelect.value) || (sizeSelect && !sizeSelect.value) || isNaN(quantity) || quantity < 1) {
             alert("Mohon lengkapi bahan, ukuran, dan jumlah sebelum menghitung harga.");
             return;
         }
@@ -259,6 +263,7 @@
         const total = (basePrice + materialPrice + sizePrice + laminationPrice + extraPrice) * quantity;
         document.getElementById('totalHarga').innerText = 'Rp ' + total.toLocaleString('id-ID');
     }
+
 
     function changeImage(element) {
         const mainImage = document.getElementById('mainPreview');

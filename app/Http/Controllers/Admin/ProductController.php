@@ -39,16 +39,18 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'form_fields_json' => 'nullable|string',
-            'dynamic_fields' => $request->input('form_fields', []),
+
+            'new_materials.*.name' => 'required|string',
+            'new_materials.*.additional_price' => 'nullable|numeric|min:0',
+
+            'new_sizes.*.name' => 'required|string',
+            'new_sizes.*.additional_price' => 'nullable|numeric|min:0',
+
+            'new_laminations.*.name' => 'required|string',
+            'new_laminations.*.additional_price' => 'nullable|numeric|min:0',
         ]);
 
-        $formFields = null;
-        if (!empty($request->form_fields_json)) {
-            $decoded = json_decode($request->form_fields_json, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $formFields = json_encode($decoded);
-            }
-        }
+        $formFields = $request->form_fields_json ?? null;
 
         $product = Product::create([
             'name' => $validated['name'],
@@ -56,7 +58,6 @@ class ProductController extends Controller
             'base_price' => $validated['price'],
             'category_id' => $validated['category_id'],
             'form_fields' => $formFields,
-            'dynamic_fields' => $request->input('form_fields', []),
         ]);
 
         // Simpan gambar produk
@@ -74,39 +75,33 @@ class ProductController extends Controller
         // Simpan bahan baru
         if ($request->filled('new_materials')) {
             foreach ($request->new_materials as $new) {
-                if (!empty($new['name'])) {
-                    $material = Material::create(['name' => $new['name']]);
-                    $product->materials()->attach($material->id, [
-                        'additional_price' => $new['additional_price'] ?? 0,
-                    ]);
-                }
+                $material = Material::create(['name' => $new['name']]);
+                $product->materials()->attach($material->id, [
+                    'additional_price' => $new['additional_price'] ?? 0,
+                ]);
             }
         }
 
         // Simpan ukuran baru
         if ($request->filled('new_sizes')) {
             foreach ($request->new_sizes as $new) {
-                if (!empty($new['name']) && !empty($new['dimension'])) {
-                    $size = Size::create([
-                        'name' => $new['name'],
-                        'dimension' => $new['dimension'],
-                    ]);
-                    $product->sizes()->attach($size->id, [
-                        'additional_price' => $new['additional_price'] ?? 0,
-                    ]);
-                }
+                $size = Size::create([
+                    'name' => $new['name'],
+                    'dimension' => $new['dimension'] ?? null,
+                ]);
+                $product->sizes()->attach($size->id, [
+                    'additional_price' => $new['additional_price'] ?? 0,
+                ]);
             }
         }
 
         // Simpan laminasi baru
         if ($request->filled('new_laminations')) {
             foreach ($request->new_laminations as $new) {
-                if (!empty($new['name'])) {
-                    $lamination = Lamination::create(['name' => $new['name']]);
-                    $product->laminations()->attach($lamination->id, [
-                        'additional_price' => $new['additional_price'] ?? 0,
-                    ]);
-                }
+                $lamination = Lamination::create(['name' => $new['name']]);
+                $product->laminations()->attach($lamination->id, [
+                    'additional_price' => $new['additional_price'] ?? 0,
+                ]);
             }
         }
 
@@ -140,16 +135,9 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'form_fields_json' => 'nullable|string',
-            'dynamic_fields' => $request->input('form_fields', []),
         ]);
 
-        $formFields = null;
-        if (!empty($request->form_fields_json)) {
-            $decoded = json_decode($request->form_fields_json, true);
-            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                $formFields = json_encode($decoded);
-            }
-        }
+        $formFields = $request->form_fields_json ?? null;
 
         $product->update([
             'name' => $validated['name'],
@@ -157,13 +145,12 @@ class ProductController extends Controller
             'base_price' => $validated['price'],
             'category_id' => $validated['category_id'],
             'form_fields' => $formFields,
-            'dynamic_fields' => $request->input('form_fields', []),
         ]);
 
         // Hapus gambar jika diminta
         if ($request->has('existing_images')) {
             foreach ($request->existing_images as $imgData) {
-                if (isset($imgData['delete']) && $imgData['delete']) {
+                if (!empty($imgData['delete'])) {
                     $image = ProductImage::find($imgData['id']);
                     if ($image && Storage::disk('public')->exists($image->image_path)) {
                         Storage::disk('public')->delete($image->image_path);
@@ -185,89 +172,82 @@ class ProductController extends Controller
             }
         }
 
-        // Update / hapus bahan
-        if ($request->has('materials')) {
-            foreach ($request->materials as $data) {
-                if (!empty($data['delete'])) {
-                    $product->materials()->detach($data['id']);
-                } else {
-                    $product->materials()->updateExistingPivot($data['id'], [
-                        'additional_price' => $data['additional_price'] ?? 0,
-                    ]);
-                }
-            }
-        }
+        // Sinkronisasi bahan
+if ($request->has('materials')) {
+    $materials = $request->input('materials');
+    $syncData = [];
 
-        // Tambah bahan baru
-        if ($request->filled('new_materials')) {
-            foreach ($request->new_materials as $new) {
-                if (!empty($new['name'])) {
-                    $material = Material::create(['name' => $new['name']]);
-                    $product->materials()->attach($material->id, [
-                        'additional_price' => $new['additional_price'] ?? 0,
-                    ]);
-                }
-            }
+    foreach ($materials as $material) {
+        if (isset($material['id'])) {
+            // Jika bahan sudah ada (lama), sync berdasarkan ID
+            $syncData[$material['id']] = [
+                'additional_price' => $material['additional_price'] ?? 0,
+            ];
+        } else {
+            // Bahan baru, buat di tabel materials
+            $newMaterial = Material::firstOrCreate([
+                'name' => $material['name'],
+            ]);
+            $syncData[$newMaterial->id] = [
+                'additional_price' => $material['additional_price'] ?? 0,
+            ];
         }
+    }
 
-        // Update / hapus ukuran
-        if ($request->has('sizes')) {
-            foreach ($request->sizes as $data) {
-                if (!empty($data['delete'])) {
-                    $product->sizes()->detach($data['id']);
-                } else {
-                    $product->sizes()->updateExistingPivot($data['id'], [
-                        'additional_price' => $data['additional_price'] ?? 0,
-                    ]);
-                }
-            }
-        }
+    // Sinkronisasi data bahan
+    $product->materials()->sync($syncData);
+}
 
-        // Tambah ukuran baru
-        if ($request->filled('new_sizes')) {
-            foreach ($request->new_sizes as $new) {
-                if (!empty($new['name'])) {
-                    $size = Size::create([
-                        'name' => $new['name'],
-                        'dimension' => $new['dimension'] ?? null,
-                    ]);
-                    $product->sizes()->attach($size->id, [
-                        'additional_price' => $new['additional_price'] ?? 0,
-                    ]);
-                }
-            }
-        }
+if ($request->has('sizes')) {
+    $sizes = $request->input('sizes');
+    $syncData = [];
 
-        // Update / hapus laminasi
-        if ($request->has('laminations')) {
-            foreach ($request->laminations as $data) {
-                if (!empty($data['delete'])) {
-                    $product->laminations()->detach($data['id']);
-                } else {
-                    $product->laminations()->updateExistingPivot($data['id'], [
-                        'additional_price' => $data['additional_price'] ?? 0,
-                    ]);
-                }
-            }
-        }
+    foreach ($sizes as $size) {
+        if (!empty($size['name'])) {
+            $existingSize = Size::firstOrCreate([
+                'name' => $size['name'],
+                'dimension' => $size['dimension'] ?? null, // optional
+            ]);
 
-        // Tambah laminasi baru
-        if ($request->filled('new_laminations')) {
-            foreach ($request->new_laminations as $new) {
-                if (!empty($new['name'])) {
-                    $lamination = Lamination::create(['name' => $new['name']]);
-                    $product->laminations()->attach($lamination->id, [
-                        'additional_price' => $new['additional_price'] ?? 0,
-                    ]);
-                }
-            }
+            $syncData[$existingSize->id] = [
+                'additional_price' => $size['additional_price'] ?? 0,
+            ];
         }
+    }
 
-        // Tambahkan "Tanpa Laminasi" jika belum ada
-        $tanpaLaminasi = Lamination::firstOrCreate(['name' => 'Tanpa Laminasi']);
-        if (!$product->laminations->contains($tanpaLaminasi->id)) {
-            $product->laminations()->attach($tanpaLaminasi->id, ['additional_price' => 0]);
+    $product->sizes()->sync($syncData);
+}
+
+
+
+if ($request->has('laminations')) {
+    $laminations = $request->input('laminations');
+    $syncData = [];
+
+    foreach ($laminations as $lamination) {
+        if (isset($lamination['name'])) {
+            $existingLamination = Lamination::firstOrCreate([
+                'name' => $lamination['name'],
+            ]);
+
+            $syncData[$existingLamination->id] = [
+                'additional_price' => $lamination['additional_price'] ?? 0,
+            ];
         }
+    }
+
+    $product->laminations()->sync($syncData);
+
+    // Pastikan "Tanpa Laminasi" selalu ada
+    $tanpaLaminasi = Lamination::firstOrCreate(['name' => 'Tanpa Laminasi']);
+    if (!$product->laminations->contains($tanpaLaminasi->id)) {
+        $product->laminations()->attach($tanpaLaminasi->id, ['additional_price' => 0]);
+    }
+}
+
+
+        // Update/hapus bahan, ukuran, laminasi (kode sama seperti sebelumnya, tetap dijaga)
+        // [Jika diperlukan, bagian ini bisa direfactor ke private function di kemudian hari]
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui.');
     }

@@ -21,7 +21,7 @@
 
 <!-- Kontak Info -->
 <section class="container my-5">
-  <div class="row">
+  <div class="row shadow-sm bg-white rounded">
     <div class="col-md-6 mb-4">
       <h5 class="mb-3">Kontak</h5>
       <h4 class="mb-4">Hubungi Kami</h4>
@@ -55,55 +55,63 @@
     
     <div class="col-md-6">
             <!-- Google Maps embed -->
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.1668492842914!2d107.90213077357036!3d-7.221801470910388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b1fb861e8869%3A0xaae204982bb74cf0!2sdulurSetting!5e0!3m2!1sen!2sid!4v1748066038258!5m2!1sen!2sid" width="500" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3958.1668492842914!2d107.90213077357036!3d-7.221801470910388!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68b1fb861e8869%3A0xaae204982bb74cf0!2sdulurSetting!5e0!3m2!1sen!2sid!4v1748066038258!5m2!1sen!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section class="bg-light py-5">
-    <div class="container">
-      <h4 class="text-center mb-4">Apa yang sering pelanggan tanyakan ?</h4>
-      <div class="accordion" id="faqAccordion">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="faq1">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
-              Apa saja layanan yang disediakan oleh Dulur Setting ?
-            </button>
-          </h2>
-          <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">
-              Dulur Setting menyediakan desain grafis,digital printing, percetakan, dan advertising untuk mendukung bisnismu.
-            </div>
+<section class="py-5">
+  <div class="container">
+    <!-- Summary Layanan -->
+    <h5 class="text-center mb-3">FAQ</h5>
+    <h4 class="text-center mb-4">Apa yang Sering Pelanggan Tanyakan?</h4>
+    
+    <div class="accordion shadow-sm rounded" id="faqAccordion">
+      
+      <div class="accordion-item border-0 mb-2">
+        <h2 class="accordion-header" id="faq1">
+          <button class="accordion-button fw-semibold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1">
+            Apa saja layanan yang disediakan oleh Dulur Setting?
+          </button>
+        </h2>
+        <div id="collapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body bg-white">
+            Dulur Setting menyediakan desain grafis, digital printing, percetakan, dan advertising untuk mendukung bisnismu.
           </div>
         </div>
-
-        <!-- Tambahan FAQ -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="faq2">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
-              Apakah Dulur Setting juga menyediakan layanan jarak jauh ?
-            </button>
-          </h2>
-          <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">Dulur Setting melayani layanan jarak jauh, dari konsultasi desain hingga pengiriman hasil cetakan online.</div>
-          </div>
-        </div>
-
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="faq3">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
-              Apakah Dulur Setting juga menerima desain custom ?
-            </button>
-          </h2>
-          <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">Dulur Setting menerima desain custom, bekerja sama dengan klien untuk menciptakan yang profesional.</div>
-          </div>
-        </div>
-
       </div>
+
+      <div class="accordion-item border-0 mb-2">
+        <h2 class="accordion-header" id="faq2">
+          <button class="accordion-button collapsed fw-semibold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2">
+            Apakah Dulur Setting juga menyediakan layanan jarak jauh?
+          </button>
+        </h2>
+        <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body bg-white">
+            Dulur Setting melayani layanan jarak jauh, dari konsultasi desain hingga pengiriman hasil cetakan online.
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item border-0 mb-2">
+        <h2 class="accordion-header" id="faq3">
+          <button class="accordion-button collapsed fw-semibold bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3">
+            Apakah Dulur Setting juga menerima desain custom?
+          </button>
+        </h2>
+        <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body bg-white">
+            Dulur Setting menerima desain custom, bekerja sama dengan klien untuk menciptakan desain yang profesional.
+          </div>
+        </div>
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
+
 
    <!-- KONSULTASI SECTION -->
 <section class="consultation-section">

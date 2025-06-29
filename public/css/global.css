@@ -156,11 +156,15 @@ a:hover {
 }
 
 .btn-secondary:hover {
-  background-color: var(--primary-700-color);
+  background-color: var(--secondary-700-color);
 }
 
 .btn-secondary:focus {
-  background-color: var(--primary-700-color);
+  background-color: var(--secondary-500-color);
+  color: var(--light-color);
+}
+.btn-secondary:active {
+  background-color: var(--secondary-700-color); /* kuning lebih gelap saat ditekan */
   color: var(--light-color);
 }
 
@@ -169,17 +173,35 @@ a:hover {
 }
 
 .btn-tertiary:hover {
-  background-color: var(--primary-700-color);
-  color: var(--light-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: var(--primary-500-color);
+  color: var(--text-light);
   transition: all 0.3s ease;
   border: none;
 }
 
-.btn-tertiary:focus {
-  background-color: var(--primary-700-color);
-  color: var(--light-color);
+
+.btn-tertiary-2 {
+  color: var(--secondary-color);
 }
+
+.btn-tertiary-2:hover {
+  background-color: var(--secondary-500-color);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+  border: none;
+}
+
+
+.btn-tertiary-danger{
+  color: var(--danger-color);
+}
+.btn-tertiary-danger:hover {
+  background-color: var(--danger-color);
+  color: var(--text-light);
+  transition: all 0.3s ease;
+  border: none;
+}
+
 
 /* Ikon di dalam tombol */
 .btn i, .btn svg {

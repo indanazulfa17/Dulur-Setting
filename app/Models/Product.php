@@ -76,4 +76,9 @@ class Product extends Model
                     ->withTimestamps();
     }
 
+    public function getFormFieldsDecodedAttribute()
+{
+    return json_decode($this->form_fields, true);
+}
+
 }

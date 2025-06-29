@@ -80,11 +80,11 @@ class ProductController extends Controller
         // Validasi form dinamis
         $dynamicFields = [];
         foreach ($formFields as $field) {
-            $name = $field['name'];
-            $required = !empty($field['required']) ? 'required' : 'nullable';
-            $rules[$name] = $required;
-            $dynamicFields[$name] = $request->input($name);
-        }
+    $name = $field['name'];
+    $rules["form_fields.$name"] = 'nullable|string'; // tidak wajib
+    $dynamicFields[$name] = $request->input("form_fields.$name");
+}
+
 
         $validated = $request->validate($rules);
 
