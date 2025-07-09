@@ -30,6 +30,18 @@ class AppServiceProvider extends ServiceProvider
         $produkNavbar = Product::with('category')->orderBy('name')->get(); // ambil semua produk (atau bisa dibatasi)
         $view->with('produkNavbar', $produkNavbar);
     });
+
+    View::composer('layouts.partials.footer-pelanggan', function ($view) {
+    $groupedProducts = Product::with('category')
+        ->orderBy('name')
+        ->get()
+        ->groupBy(function ($product) {
+            return $product->category->name ?? 'Lainnya';
+        });
+
+    $view->with('groupedProducts', $groupedProducts);
+});
+
 }
 
 }

@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container mt-5">
+
 
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-3">
@@ -19,7 +19,7 @@
     </nav>
 
     <div class="container-produk">
-        <h4 class="heading">Edit Produk</h4>
+        <h5 class="heading">Edit Produk</h5>
 
         @if ($errors->any())
         <div class="alert alert-danger">
@@ -53,15 +53,26 @@
                     <div class="form">
                         <label class="form-label">Gambar Produk</label><br>
                         @if ($product->images->count() > 0)
-                            <div class="mb-3 d-flex flex-wrap gap-2">
+                            <div class="mb-3 d-flex flex-wrap gap-4">
                                 @foreach($product->images as $image)
-                                    <div class="position-relative">
-                                        <img src="{{ asset('storage/' . $image->image_path) }}" class="img-thumbnail" style="width: 120px;">
-                                        <label class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="cursor: pointer;">
-                                            ✖ <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" hidden>
-                                        </label>
-                                    </div>
-                                @endforeach
+    <div class="position-relative image-item" id="image-{{ $image->id }}">
+        <img src="{{ asset('storage/' . $image->image_path) }}" class="img-thumbnail" style="width: 120px;">
+        <button type="button"
+    class="btn btn-sm btn-danger rounded-circle d-flex align-items-center justify-content-center 
+        position-absolute top-0 start-100 translate-middle"
+    style="width: 28px; height: 28px;" {{-- atur ukuran supaya bulat total --}}
+    data-bs-toggle="modal"
+    data-bs-target="#confirmDeleteModal"
+    data-delete-url="{{ route('admin.products.images.destroy', $image->id) }}"
+    title="Hapus Gambar">
+    <i class="fa-solid fa-xmark" style="font-size: 16px"></i>
+</button>
+
+
+
+    </div>
+@endforeach
+
                             </div>
                         @else
                             <p class="text-muted">Belum ada gambar.</p>
@@ -101,16 +112,15 @@
                         <table class="table align-middle rounded table-borderless" id="materialTable">
                             <thead class="bg-light">
                                 <tr>
-                                    <th>Nama Bahan <span class="text-danger">*</span></th>
-                                    <th>Harga Tambahan (Rp)</th>
-                                    <th></th>
+                                    <th><label class="table-label">Nama Bahan <span class="text-danger">*</span></th>
+                                    <th><label class="table-label">Harga Tambahan (Rp)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($product->materials as $index => $material)
                                     <tr>
                                         <td>
-                                            <input type="text" name="materials[{{ $index }}][name]" value="{{ $material->name }}" class="form-control" readonly>
+                                            <input type="text" name="materials[{{ $index }}][name]" value="{{ $material->name }}" class="form-control">
                                             <input type="hidden" name="materials[{{ $index }}][id]" value="{{ $material->id }}">
                                         </td>
                                         <td>
@@ -130,7 +140,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" onclick="addMaterialRow()" class="btn btn-tertiary btn-sm">
+                    <button type="button" onclick="addMaterialRow()" class="btn-outline btn-md">
                         <i class="fa-solid fa-circle-plus"></i> Tambah Bahan
                     </button>
                 </div>
@@ -144,17 +154,16 @@
                         <table class="table align-middle rounded table-borderless" id="sizeTable">
                             <thead class="bg-light">
                                 <tr>
-                                    <th>Nama Ukuran <span class="text-danger">*</span></th>
-                                    <th>Dimensi</th>
-                                    <th>Harga Tambahan (Rp)</th>
-                                    <th></th>
+                                    <th><label class="table-label">Nama Ukuran <span class="text-danger">*</span></th>
+                                    <th><label class="table-label">Dimensi</th>
+                                    <th><label class="table-label">Harga Tambahan (Rp)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($product->sizes as $index => $size)
                                     <tr>
-                                        <td><input type="text" name="sizes[{{ $index }}][name]" value="{{ $size->name }}" class="form-control" readonly></td>
-                                        <td><input type="text" name="sizes[{{ $index }}][dimension]" value="{{ $size->dimension }}" class="form-control" readonly></td>
+                                        <td><input type="text" name="sizes[{{ $index }}][name]" value="{{ $size->name }}" class="form-control"></td>
+                                        <td><input type="text" name="sizes[{{ $index }}][dimension]" value="{{ $size->dimension }}" class="form-control"></td>
                                         <td><input type="number" name="sizes[{{ $index }}][additional_price]" value="{{ $size->pivot->additional_price }}" class="form-control"></td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-tertiary-danger btn-sm" onclick="removeRow(this)">
@@ -170,7 +179,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" onclick="addSizeRow()" class="btn btn-tertiary btn-sm">
+                    <button type="button" onclick="addSizeRow()" class="btn-outline btn-md">
                         <i class="fa-solid fa-circle-plus"></i> Tambah Ukuran
                     </button>
                 </div>
@@ -184,16 +193,15 @@
                         <table class="table align-middle rounded table-borderless" id="laminationTable">
                             <thead class="bg-light">
                                 <tr>
-                                    <th>Jenis Laminasi <span class="text-danger">*</span></th>
-                                    <th>Harga Tambahan (Rp)</th>
-                                    <th></th>
+                                    <th><label class="table-label">Jenis Laminasi <span class="text-danger">*</span></th>
+                                    <th><label class="table-label">Harga Tambahan (Rp)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($product->laminations as $index => $lamination)
                                     <tr>
                                         <td>
-                                            <input type="text" name="laminations[{{ $index }}][name]" value="{{ $lamination->name }}" class="form-control" readonly>
+                                            <input type="text" name="laminations[{{ $index }}][name]" value="{{ $lamination->name }}" class="form-control">
                                             <input type="hidden" name="laminations[{{ $index }}][id]" value="{{ $lamination->id }}">
                                         </td>
                                         <td><input type="number" name="laminations[{{ $index }}][additional_price]" value="{{ $lamination->pivot->additional_price }}" class="form-control"></td>
@@ -211,7 +219,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <button type="button" onclick="addLaminationRow()" class="btn btn-tertiary btn-sm">
+                    <button type="button" onclick="addLaminationRow()" class="btn-outline btn-md">
                         <i class="fa-solid fa-circle-plus"></i> Tambah Laminasi
                     </button>
                 </div>
@@ -234,8 +242,9 @@
                 <tbody id="fieldTableBody">
                     {{-- Field lama --}}
                     @php
-                        $fields = $product->form_fields ? json_decode($product->form_fields, true) : [];
-                    @endphp
+  $fields = $product->form_fields ? json_decode($product->form_fields, true) : [];
+@endphp
+
 
                     @if(count($fields) > 0)
                         @foreach($fields as $index => $field)
@@ -258,9 +267,10 @@
                                             </div>
                                         @endforeach
                                     </div>
-                                    <button type="button" onclick="addOption(this)" class="btn btn-tertiary-2 btn-sm mt-2">
-                                        <i class="fa-solid fa-circle-plus"></i> Opsi
-                                    </button>
+                                    <button type="button" onclick="addOption(this)" class="btn-outline-2 btn-md " >
+                <i class="fa-solid fa-circle-plus"></i> Opsi
+            </button>
+                                    
                                 </td>
                                 <td class="align-top text-center py-2">
                                     <button type="button" class="btn btn-tertiary-danger btn-sm" title="Hapus field ini" onclick="removeRow(this)">
@@ -277,14 +287,14 @@
                 </tbody>
             </table>
         </div>
-        <button type="button" onclick="addFormFieldRow()" class="btn btn-tertiary btn-sm">
+        <button type="button" onclick="addFormFieldRow()" class="btn-outline btn-md">
             <i class="fa-solid fa-circle-plus"></i> Tambah Field
         </button>
-        <input type="hidden" name="form_fields_json" id="form_fields_json">
+        
     </div>
 </div>
 
-
+<input type="hidden" name="form_fields_json" id="form_fields_json">
             {{-- Tombol Simpan --}}
             <div class="text-end mt-4">
                 <button type="submit" class="btn btn-primary btn-md">Simpan Perubahan</button>
@@ -292,7 +302,30 @@
 
         </form>
     </div>
+
+<!-- Modal Konfirmasi Hapus -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+      <div class="modal-hapus text-danger">
+        <i class="bi bi-trash-fill"></i>
+      </div>
+      <div class="modal-body text-center">
+        <h5 class="modal-title mb-3" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
+        <p>Yakin ingin menghapus item ini?</p>
+      </div>
+      <div class="modal-footer justify-content-center border-0">
+        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+        <form id="deleteForm" method="POST" class="d-inline">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger btn-hapus">Hapus</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 @endsection
 
@@ -390,9 +423,9 @@ function addFormFieldRow() {
                     </button>
                 </div>
             </div>
-            <button type="button" onclick="addOption(this)" class="btn btn-tertiary-2 btn-sm " >
-                <i class="fa-solid fa-circle-plus"></i></i>Opsi
-            </button> 
+            <button type="button" onclick="addOption(this)" class="btn-outline-2 btn-md " >
+                <i class="fa-solid fa-circle-plus"></i> Opsi
+            </button>
         </td>
         <td class="align-top text-center py-2">
             <button class="btn btn-tertiary-danger btn-sm" title="Hapus field ini" onclick="removeRow(this)">
@@ -451,12 +484,28 @@ document.getElementById('productForm').addEventListener('submit', function(e) {
             }
         });
 
-        if (label && name && options.length > 0) {
-            result.push({ label: label, name: name, type: "select", options: options });
+        if (label && name) {
+            result.push({
+                label: label,
+                name: name,
+                type: options.length > 0 ? "select" : "text",
+                options: options
+            });
         }
     });
 
     document.getElementById('form_fields_json').value = JSON.stringify(result);
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const confirmModal = document.getElementById('confirmDeleteModal');
+    confirmModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const deleteUrl = button.getAttribute('data-delete-url');
+        const form = document.getElementById('deleteForm');
+        form.setAttribute('action', deleteUrl);
+    });
 });
 </script>
 @endpush

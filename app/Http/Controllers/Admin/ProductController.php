@@ -35,7 +35,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'form_fields_json' => 'nullable|string',
@@ -131,7 +131,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
             'form_fields_json' => 'nullable|string',
@@ -147,18 +147,17 @@ class ProductController extends Controller
             'form_fields' => $formFields,
         ]);
 
-        // Hapus gambar jika diminta
-        if ($request->has('existing_images')) {
-            foreach ($request->existing_images as $imgData) {
-                if (!empty($imgData['delete'])) {
-                    $image = ProductImage::find($imgData['id']);
-                    if ($image && Storage::disk('public')->exists($image->image_path)) {
-                        Storage::disk('public')->delete($image->image_path);
-                    }
-                    $image?->delete();
-                }
-            }
+        // ✅ Hapus gambar jika dicentang
+if ($request->has('delete_images')) {
+    foreach ($request->delete_images as $imageId) {
+        $image = ProductImage::find($imageId);
+        if ($image && Storage::disk('public')->exists($image->image_path)) {
+            Storage::disk('public')->delete($image->image_path); // hapus file dari storage
         }
+        $image?->delete(); // hapus record dari DB
+    }
+}
+
 
         // Tambah gambar baru
         if ($request->hasFile('images')) {
@@ -268,4 +267,19 @@ if ($request->has('laminations')) {
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus.');
     }
+
+    public function destroyImage($id)
+{
+    $image = ProductImage::findOrFail($id);
+
+    // Hapus file dari storage
+    if (Storage::disk('public')->exists($image->image_path)) {
+        Storage::disk('public')->delete($image->image_path);
+    }
+
+    $image->delete();
+
+    return back()->with('success', 'Gambar berhasil dihapus.');
+}
+
 }

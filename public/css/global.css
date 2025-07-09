@@ -1,25 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 html, body {
-    max-width: 100%;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    background-color:white;
-    line-height: 1.6;
-    }
-
+  max-width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  background-color:white;
+  line-height: 1.6;
+}
 .container, .container-fluid {
-      max-width: 1440px;
-      padding-left: 120px;
-      padding-right: 120px;
-      margin: 0 auto;
-    }
-
+  max-width: 1440px;
+  padding-left: 120px;
+  padding-right: 120px;
+  margin: 0 auto;
+}
 .container-content{
   margin: 0 auto;
   padding: 40px 60px;
-  background-color: #d1e7ff; /* Warna biru */
-  color: var(--text-dark-1); /* Warna teks agar kontras dengan latar */
+  background-color: #d1e7ff; 
+  color: var(--text-dark-1);
   border-radius: 16px;
   text-align: center;
   position: relative;
@@ -59,6 +57,9 @@ html, body {
   .container-content {
     text-align: left;
   }
+  .p{
+    font-size: 14px;
+  }
 }
 
 /* ========== ROOT VARIABEL (GLOBAL COLORS & FONT) ========== */
@@ -97,7 +98,44 @@ html, body {
 }
 
 /* ========== TYPOGRAPHY GLOBAL ========== */
+h1 {
+  font-size: 2.5rem; /* 40px desktop */
+}
 
+h2 {
+  font-size: 2rem; /* 32px desktop */
+}
+
+h3 {
+  font-size: 1.75rem; /* 28px desktop */
+}
+
+h4 {
+  font-size: 1.5rem; /* 24px desktop */
+}
+
+h5 {
+  font-size: 1.25rem; /* 20px desktop */
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem; /* 32px mobile */
+  }
+  h2 {
+    font-size: 1.75rem; /* 28px mobile */
+  }
+  h3 {
+    font-size: 1.5rem; /* 24px mobile */
+  }
+  h4 {
+    font-size: 1.25rem; /* 20px mobile */
+  }
+  h5 {
+    font-size: 1rem; /* 16px mobile */
+  }
+}
 
 h1, h2, h3, h4, h5 {
   font-family: var(--font-primary);
@@ -124,84 +162,130 @@ a:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* Jarak antara ikon dan teks */
+  gap: 8px; 
   border: none;
-  border-radius: 50px;
-  font-size: 16px;
+  border-radius: 999px;
+  font-size: 1rem;
   font-weight: 600;
   font-family: 'Inter' ;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
+/* Button Primary */
 .btn-primary {
   background-color: var(--primary-color);
   color: var(--text-light);
   font-weight: 600;
 }
-
 .btn-primary:hover {
   background-color: var(--primary-700-color);
   color: var(--light-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-
 .btn-primary:focus {
   background-color: var(--primary-700-color);
   color: var(--light-color);
 }
 
+/* Button Secondary */
 .btn-secondary {
-  background-color: var(--secondary-color);
-  color: var(--text-light);
+  background-color: var(--secondary-500-color) !important;
+  color: var(--text-light) !important;
+  font-weight: 600;
 }
-
 .btn-secondary:hover {
-  background-color: var(--secondary-700-color);
+  background-color: var(--primary-700-color) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
-
 .btn-secondary:focus {
-  background-color: var(--secondary-500-color);
-  color: var(--light-color);
+  background-color: var(--primary-500-color) !important;
+  color: var(--light-color) !important;
 }
 .btn-secondary:active {
-  background-color: var(--secondary-700-color); /* kuning lebih gelap saat ditekan */
-  color: var(--light-color);
+  background-color: var(--primary-700-color) !important; 
+  color: var(--light-color) !important;
 }
 
+/* Button Tertiary */
 .btn-tertiary {
-  color: var(--primary-color);
+  color: var(--primary-color) !important;
 }
-
 .btn-tertiary:hover {
-  background-color: var(--primary-500-color);
-  color: var(--text-light);
+  background-color: var(--primary-color) !important;
+  color: var(--text-light) !important;
   transition: all 0.3s ease;
   border: none;
 }
-
-
 .btn-tertiary-2 {
-  color: var(--secondary-color);
+  color: var(--secondary-color) !important;
 }
-
 .btn-tertiary-2:hover {
-  background-color: var(--secondary-500-color);
-  color: var(--text-light);
+  background-color: var(--secondary-500-color) !important;
+  color: var(--text-light) !important;
   transition: all 0.3s ease;
   border: none;
 }
-
-
 .btn-tertiary-danger{
-  color: var(--danger-color);
+  color: var(--danger-color) !important;
 }
 .btn-tertiary-danger:hover {
-  background-color: var(--danger-color);
-  color: var(--text-light);
+  background-color: var(--danger-color) !important;
+  color: var(--text-light) !important;
   transition: all 0.3s ease;
   border: none;
 }
 
+/* Button Outline */
+.btn-outline {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter';
+  color: var(--primary-color);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+  gap: 8px;
+}
+.btn-outline:hover {
+  color: var(--primary-700-color);
+  text-decoration: underline;
+}
+.btn-outline-2 {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter';
+  color: var(--secondary-color);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+  gap: 8px;
+}
+.btn-outline-2:hover {
+  color: var(--primary-700-color);
+  text-decoration: underline;
+}
+.btn-outline-danger {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter';
+  color: var(--danger-color);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+  gap: 8px;
+  display: inline-flex;
+}
+.btn-outline-danger:hover {
+  color: #bb2d3b;
+  text-decoration: underline;
+}
 
 /* Ikon di dalam tombol */
 .btn i, .btn svg {
@@ -216,42 +300,124 @@ a:hover {
   font-size: 12px;
   line-height: 14px;
 }
-
 .btn-md {
   padding: var(--btn-md-padding);
   font-size: 16px;
   line-height: 20px;
 }
-
 .btn-lg {
   padding: var(--btn-lg-padding);
   font-size: 18px;
   line-height: 23px;
 }
-
 .whatsapp-float {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    background-color: #25D366;
-    color: white;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    font-size: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s ease;
-    text-decoration: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #25D366;
+  color: white;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  font-size: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  text-decoration: none;
 }
-
 .whatsapp-float:hover {
-    transform: scale(1.1);
-    color: var(--bg-white-color);
+  transform: scale(1.1);
+  color: var(--bg-white-color);
 }
 
+
+/* ========== MODAL ========== */
+.custom-modal {
+  border-radius: 12px;
+  padding: 20px 10px;
+  border: none;
+}
+.custom-modal .modal-title {
+  font-weight: 600;
+  color: var(--text-dark-2);
+}
+.custom-modal p {
+  margin: 0;
+  color: var(--text-dark-1); 
+}
+.custom-modal .modal-footer {
+  background: none;
+}
+.custom-modal .btn-cancel {
+  background-color: #e5e7eb; /* Tailwind gray-200 */
+  color: var(--text-dark-2); 
+  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.custom-modal .btn-cancel:hover {
+  background-color: var(--secondary-color); 
+  color: var(--text-light);
+}
+
+/* Modal Simpan Produk */
+.custom-modal .modal-simpan {
+  text-align: center;
+  font-size: 40px;
+  color: var(--primary-color); 
+  margin-top: 10px;
+}
+.custom-modal .btn-simpan {
+  background-color: var(--primary-color); 
+  color: var(--text-light);
+  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.custom-modal .btn-simpan:hover {
+  background-color: var(--primary-700-color); 
+  color: var(--text-light);
+}
+
+/* Modal Hapus Produk */
+.custom-modal .modal-hapus {
+  text-align: center;
+  font-size: 40px;
+  margin-top: 10px;
+}
+.custom-modal .btn-hapus {
+  background-color: var(--danger-color); 
+  color: var(--text-light);
+  padding: 8px 20px;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter' ;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.custom-modal .btn-hapus:hover {
+  background-color: #bb2d3b;
+}
 
 

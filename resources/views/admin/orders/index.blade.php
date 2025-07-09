@@ -3,39 +3,36 @@
 @section('title', 'Riwayat Pesanan')
 
 @section('content')
-<div class="container-fluid mt-5">
-    <nav aria-label="breadcrumb" class="mb-3">
+
+{{-- BREADCRUMB --}}
+<nav aria-label="breadcrumb" class="mb-3">
     <ol class="breadcrumb custom-breadcrumb">
         <li class="breadcrumb-item">
-            <a href="{{ route('admin.dashboard') }}">
-                <i class="fa-solid fa-house"></i> Dashboard
-            </a>
+            <a href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-house"></i> Dashboard</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">
-             Riwayat Pesanan
-        </li>
+        <li class="breadcrumb-item active" aria-current="page"> Riwayat Pesanan</li>
     </ol>
 </nav>
 
-    <h4>Riwayat Pesanan</h4>
-
+{{-- INFORMASI PELANGGAN --}}
+<h5 class="heading">Riwayat Pesanan</h5>
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
         </div>
     @endif
-
+    {{-- TABLE --}}
     <div class="table-responsive">
-    <table class="table align-middle table-hover table-borderless shadow-sm rounded">
+    <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded">
         <thead class="bg-light text-dark">
             <tr>
-                <th style="width: 50px;">No</th>
-                <th style="width: 150px;">Nama</th>
-                <th style="width: 180px;">Produk</th>
-                <th style="width: 100px;">Jumlah</th>
-                <th style="width: 120px;" >Status</th>
-                <th style="width: 120px;" >Waktu</th>
+                <th style>No</th>
+                <th style>Nama</th>
+                <th style>Produk</th>
+                <th style="width: 100px">Jumlah</th>
+                <th style="width: 150px">Status</th>
+                <th style>Waktu</th>
                 <th style="width: 100px;" class="text-center">Aksi</th>
             </tr>
         </thead>
@@ -51,9 +48,9 @@
         @csrf
         @method('PUT')
         <select name="status" onchange="this.form.submit()"
-            class="form-select form-select-sm rounded-pill w-auto py-1 px-5
-            {{ $order->status === 'selesai' ? 'bg-white text-dark' : 
-                ($order->status === 'diproses' ? 'bg-white text-dark' : 'bg-secondary text-dark') }}">
+            class="form-status 
+            {{ $order->status === 'selesai' ? 'bg-white ' : 
+                ($order->status === 'diproses' ? 'bg-white ' : 'bg-white') }}">
             <option value="diproses" {{ $order->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
             <option value="selesai" {{ $order->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
         </select>
@@ -64,7 +61,7 @@
                     <td class="text-center">
                         <div class="d-inline-flex gap-2">
                             <a href="{{ route('admin.orders.show', $order->id) }}"
-                               class="btn btn-sm btn-outline-primary" title="Lihat Detail">
+                               class="btn btn-tertiary btn-sm" title="Lihat Detail">
                                 <i class="fa-regular fa-eye"></i>
                             </a>
                             <button class="btn btn-tertiary-danger btn-sm"
@@ -88,7 +85,6 @@
 </div>
 
 
-</div>
 
 <!-- Modal Konfirmasi Hapus -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
@@ -111,7 +107,7 @@
       </div>
     </div>
   </div>
-</div>
+
 @endsection
 
 @push('scripts')

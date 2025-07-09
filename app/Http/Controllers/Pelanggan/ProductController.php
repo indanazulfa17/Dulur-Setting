@@ -72,7 +72,7 @@ class ProductController extends Controller
 
         // Validasi berdasarkan input desain
         if ($request->input('design_input_type') === 'upload') {
-            $rules['design_file'] = 'required|file|mimes:pdf,jpg,jpeg,png|max:5120';
+            $rules['design_file'] = 'required|file|mimes:pdf,jpg,jpeg,png|max:10240';
         } else {
             $rules['design_link'] = 'required|url';
         }
@@ -86,7 +86,22 @@ class ProductController extends Controller
 }
 
 
-        $validated = $request->validate($rules);
+        $validated = $request->validate($rules, [
+        'material_id.required' => 'Bahan wajib dipilih.',
+        'size_id.required' => 'Ukuran wajib dipilih.',
+        'lamination_id.required' => 'Laminasi wajib dipilih.',
+        'quantity.required' => 'Jumlah wajib diisi.',
+        'quantity.integer' => 'Jumlah harus berupa angka.',
+        'quantity.min' => 'Jumlah minimal 1.',
+        'design_input_type.required' => 'Metode input desain wajib dipilih.',
+        'design_input_type.in' => 'Metode input desain tidak valid.',
+        'design_file.required' => 'File desain wajib diunggah.',
+        'design_file.file' => 'File desain harus berupa file.',
+        'design_file.mimes' => 'File desain harus berupa pdf, jpg, jpeg, atau png.',
+        'design_file.max' => 'Ukuran file desain maksimal 10MB.',
+        'design_link.required' => 'Link desain wajib diisi.',
+        'design_link.url' => 'Format link desain tidak valid.',
+    ]);
 
         // Simpan order
         $order = Order::create([

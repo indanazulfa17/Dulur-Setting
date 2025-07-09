@@ -1,82 +1,61 @@
-<!-- FOOTER SECTION -->
+{{-- FOOTER SECTION --}}
 <footer class="footer">
   <div class="footer-container">
-    <!-- Bagian Brand -->
+    {{-- Info --}}
     <div class="footer-top">
+      {{-- Logo / Brand --}}
       <div class="footer-brand">
         <img src="{{ asset('images/logo-white.png') }}" alt="Dulur Setting Logo" class="logo" style="padding-bottom: 15px;">
         <p>Layanan percetakan kebutuhan usaha Anda, mulai dari kemasan, promosi, hingga cetakan bisnis harian.</p>
       </div>
-
-      <!-- Info Kontak -->
-      
+      {{-- Info Produk --}}
       <div class="footer-contact-info">
-  <h4>Kontak Kami</h4>
-
-  <div class="info-item">
-    <i class="fas fa-map-marker-alt"></i>
-    <p>Jl. Pasundan No. 17 Kel., Kota Kulon Kec. Garut Kota, Kabupaten Garut Kode Pos 44112</p>
-  </div>
-
-  <div class="info-item">
-    <i class="fas fa-phone-alt"></i>
-    <p><a href="tel:+62895612811600">+62 895 6128 11600</a></p>
-  </div>
-  
-  <div class="info-item">
-    <i class="fas fa-envelope"></i>
-    <p><a href="mailto:dulursetting@gmail.com">dulursetting@gmail.com</a></p>
-  </div>
-
-</div>
-
-
-      <!-- Jam Kerja -->
+        <h5 class="mb-3">Kontak Kami</h5>
+        {{-- Alamat --}}
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <p>Jl. Pasundan No. 17 Kel., Kota Kulon Kec. Garut Kota, Kabupaten Garut Kode Pos 44112</p>
+        </div>
+        {{-- No Telepon --}}
+        <div class="info-item">
+          <i class="fas fa-phone-alt"></i>
+          <p><a href="tel:+6285222259229">+62 852-2225-9229</a></p>
+        </div>
+        {{-- Email --}}
+        <div class="info-item">
+          <i class="fas fa-envelope"></i>
+          <p><a href="mailto:dulursetting@gmail.com">dulursetting@gmail.com</a></p>
+        </div>
+      </div>
+      {{-- Jam Kerja --}}
       <div class="footer-working-hours">
-        <h4>Jam Operasional</h4>
+        <h5 class="mb-3">Jam Operasional</h5>
         <p>Senin – Sabtu: 08.00 – 18.00</p>
         <p>Minggu: Kondisional</p>
       </div>
     </div>
 
-    <!-- Navigasi Produk -->
+    {{-- Navigasi Produk --}}
     <div class="footer-links">
-      <div class="footer-column">
-        <h4>Percetakan</h4>
-        <ul>
-          <li><a href="#">Brosur</a></li>
-          <li><a href="#">Poster</a></li>
-          <li><a href="#">Spanduk</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h4>Advertising</h4>
-        <ul>
-          <li><a href="#">Desain Kemasan</a></li>
-          <li><a href="#">Banner</a></li>
-          <li><a href="#">Spanduk</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h4>Digital Printing</h4>
-        <ul>
-          <li><a href="#">Kartu Nama</a></li>
-          <li><a href="#">Kop Surat</a></li>
-          <li><a href="#">Amplop</a></li>
-          <li><a href="#">🔗 Lihat Semua Produk</a></li>
-        </ul>
-      </div>
+      @foreach ($groupedProducts as $category => $products)
+        <div class="footer-column">
+          <h5 class="mb-3">{{ $category }}</h5>
+            <ul>
+              @foreach ($products->take(3) as $product)
+                <li><a href="{{ route('pelanggan.products.show', $product->id) }}">{{ $product->name }}</a></li>
+              @endforeach
+            </ul>
+        </div>
+      @endforeach
     </div>
 
-    <!-- Follow Us -->
-      <div class="footer-follow">
-        <h4>Ikuti Kami</h4>
-        <a href="https://instagram.com/dulursetting" target="_blank" class="follow-icon">
-          <i class="fab fa-instagram"></i> @dulursetting
-        </a>
-      </div>
-
-    <!-- Copyright -->
+    {{-- Follow Us --}}
+    <div class="footer-follow">
+      <h5 class="mb-3">Ikuti Kami</h5>
+      <a href="https://instagram.com/dulursetting" target="_blank" class="follow-icon"><i class="fab fa-instagram"></i>dulursetting</a>
+    </div>
+      
+    {{-- Copyright --}}
     <div class="footer-bottom">
       <p>&copy; 2024 Dulur Setting. All Rights Reserved.</p>
     </div>

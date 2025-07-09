@@ -1,60 +1,119 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ asset('css/global.css') }}">
     <title>Login</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts: Montserrat & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --primary-color: #0d6efd;
+            --text-dark: #2c3e50;
+            --bg-light: #f4f6f8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-color: var(--bg-white);
+            font-family: 'Inter', sans-serif;
+        }
+
+        h2, label {
+            font-family: 'Montserrat', sans-serif;
+        }
+
         .main {
             height: 100vh;
         }
 
         .login-box {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
-            max-width: 500px;
-            padding: 30px 50px;
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
+            max-width: 420px;
+            transition: 0.3s ease;
         }
 
         .login-box h2 {
-            margin-bottom: 25px;
             text-align: center;
-            color: var(--text-dark-2);
-        }
-
-        .form-label{
-            font-size: 14px;
+            margin-bottom: 30px;
             font-weight: 600;
-            color: var(--text-dark-2);
+            color: var(--text-dark);
         }
 
-        .form-control{
-            border-radius: 12px;
-            padding: 8px 12px;
+        .form-label {
+            font-weight: 500;
+            color: #343F52;
+            font-size: 14px;
+            font-family: 'Inter';
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 15px;
+            border: 1px solid #ddd;
+            transition: 0.2s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-primary {
+            border-radius: 999px;
+            font-weight: 500;
             font-size: 16px;
+            padding: 10px;
+            transition: 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+
+        .error-text {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 576px) {
+            .login-box {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="main d-flex flex-column justify-content-center align-items-center">
+<div class="main d-flex justify-content-center align-items-center">
     <div class="login-box">
         <h2>Login</h2>
 
-         @if ($errors->any())
-        <div style="color:red;">
-            {{ $errors->first() }}
-        </div>
-    @endif
-        
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+        @if ($errors->any())
+            <div class="error-text">
+                {{ $errors->first() }}
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" name="username" id="username" required>
@@ -64,13 +123,12 @@
                 <input type="password" class="form-control" name="password" id="password" required>
             </div>
             <div class="mt-4">
-                <button type="submit" name="loginbtn"class="btn btn-primary btn-md w-100">Login</button>
+                <button type="submit" name="loginbtn" class="btn btn-primary w-100">Login</button>
             </div>
         </form>
     </div>
 </div>
-</body>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-</html>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

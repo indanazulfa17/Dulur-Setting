@@ -1,26 +1,16 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container-fluid mt-5">
+
     {{-- Breadcrumb --}}
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb custom-breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('admin.dashboard') }}">
-                    <i class="fa-solid fa-house"></i> Dashboard
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('admin.products.index') }}"> Produk
-                </a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page"> Tambah Produk </li>
-        </ol>
-    </nav>
+   
+    <a href="{{ route('admin.products.index') }}" class="breadcrumb-back-link mb-3 d-inline-block">
+        <i class="fas fa-arrow-left me-1"></i> Kembali ke Produk
+    </a>
 
 
-<div class="container-produk">
-    <h4 class="heading">Tambah Produk Baru</h4>
+
+    <h5 class="heading">Tambah Produk Baru</h5>
 
     {{-- Notifikasi Error --}}
     @if ($errors->any())
@@ -126,8 +116,8 @@
                         </tbody>
                     </table>
                 </div>
-                    <button type="button" onclick="addMaterialRow()" class="btn btn-tertiary btn-sm">
-                        <i class="fa-solid fa-circle-plus"></i>Tambah Bahan
+                    <button type="button" onclick="addMaterialRow()" class="btn-outline btn-md">
+                        <i class="fa-solid fa-circle-plus"></i> Tambah Bahan
                     </button>
                 </div>
         </div>
@@ -163,8 +153,8 @@
                         </tbody>
                     </table>
                 </div>
-                    <button type="button" onclick="addSizeRow()" class="btn btn-tertiary btn-sm">
-                        <i class="fa-solid fa-circle-plus"></i>Tambah Ukuran
+                    <button type="button" onclick="addSizeRow()" class="btn-outline btn-md">
+                        <i class="fa-solid fa-circle-plus"></i> Tambah Ukuran
                     </button>
                 </div>
         </div>
@@ -197,8 +187,8 @@
                         </tbody>
                     </table>
                 </div>
-                    <button type="button" onclick="addLaminationRow()" class="btn btn-tertiary btn-sm">
-                        <i class="fa-solid fa-circle-plus"></i>Tambah Laminasi
+                    <button type="button" onclick="addLaminationRow()" class="btn-outline btn-md">
+                        <i class="fa-solid fa-circle-plus"></i> Tambah Laminasi
                     </button>
                 </div>
         </div>
@@ -221,8 +211,8 @@
                         </tbody>
                     </table>
                 </div>
-                    <button type="button" onclick="addFormFieldRow()" class="btn btn-tertiary btn-sm">
-                        <i class="fa-solid fa-circle-plus"></i>Tambah Field
+                    <button type="button" onclick="addFormFieldRow()" class="btn-outline btn-md">
+                        <i class="fa-solid fa-circle-plus"></i> Tambah Field
                     </button>
                     <input type="hidden" name="form_fields_json" id="form_fields_json">
                 </div>
@@ -253,8 +243,8 @@
   </div>
 </div>
 
-</div>
-</div>
+
+
 @endsection
 
 @push('scripts')
@@ -326,8 +316,8 @@ function addFormFieldRow() {
                     </button>
                 </div>
             </div>
-            <button type="button" onclick="addOption(this)" class="btn btn-tertiary-2 btn-sm " >
-                <i class="fa-solid fa-circle-plus"></i></i>Opsi
+            <button type="button" onclick="addOption(this)" class="btn-outline-2 btn-md " >
+                <i class="fa-solid fa-circle-plus"></i> Opsi
             </button> 
         </td>
         <td class="align-top text-center py-2">

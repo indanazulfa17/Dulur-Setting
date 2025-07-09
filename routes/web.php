@@ -55,6 +55,8 @@ Route::middleware(['auth'])->group(function () {
 
     // 📦 Produk
     Route::resource('/admin/products', AdminProductController::class)->names('admin.products');
+   Route::delete('/admin/products/images/{id}', [AdminProductController::class, 'destroyImage'])->name('admin.products.images.destroy');
+
 
     // 📄 Pesanan
     Route::get('/admin/orders', [AdminOrderController::class, 'index'])->name('admin.orders.index');

@@ -24,7 +24,7 @@ class OrderController extends Controller
             'lamination_id'      => 'nullable|exists:laminations,id',
             'quantity'           => 'required|integer|min:1',
             'custom_description' => 'nullable|string',
-            'design_file'        => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'design_file'        => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:10240',
             'design_link'        => 'nullable|url',
             'form_fields'        => 'nullable|array',
         ]);
@@ -101,7 +101,18 @@ class OrderController extends Controller
             'email'            => 'nullable|email|max:255',
             'shipping_method'  => 'required|in:ambil,kirim',
             'shipping_address' => 'nullable|string',
-            'payment_proof'    => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'payment_proof'    => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            ], [
+            
+            'customer_name.required' => 'Nama pemesan wajib diisi.',
+            'whatsapp.required' => 'Nomor WhatsApp wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'shipping_method.required' => 'Metode pengambilan wajib dipilih.',
+            'shipping_method.in' => 'Metode pengambilan tidak valid.',
+            'shipping_address.required_if' => 'Alamat pengiriman wajib diisi jika memilih dikirim.',
+            'payment_proof.file' => 'Bukti pembayaran harus berupa file.',
+            'payment_proof.mimes' => 'Bukti pembayaran harus berupa file jpg, jpeg, png, atau pdf.',
+            'payment_proof.max' => 'Ukuran bukti pembayaran maksimal 5MB.',
         ]);
 
         $order = Order::findOrFail($id);
@@ -131,7 +142,7 @@ class OrderController extends Controller
     public function uploadPaymentProof(Request $request, $id)
     {
         $request->validate([
-            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'payment_proof' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
         ]);
 
         $order = Order::findOrFail($id);

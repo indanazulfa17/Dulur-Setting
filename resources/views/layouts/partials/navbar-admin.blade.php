@@ -1,14 +1,64 @@
-<nav class="navbar navbar-expand-lg shadow-sm" style="background: #ffffff;">
-  <div class="container-fluid">
-    <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-      <img src="{{ asset('images/logo.png') }}" alt="Logo" width="100" height="40" class="me-2">
-    </a>
-
-    <div class="d-flex align-items-center">
-      <form method="POST" action="{{ route('logout') }}" class="mb-0">
-        @csrf
-        <button class="btn btn-outline-danger rounded-pill px-3 shadow-sm">Logout</button>
-      </form>
+{{--TOP BAR --}}
+<nav class="navbar navbar-expand-lg bg-white shadow-sm px-0 py-2 fixed-top">
+    <div class="navbar d-flex align-items-center justify-content-between w-100">
+        {{-- Logo --}}
+        <div class="d-flex align-items-center gap-2">
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('admin.dashboard') }}">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" width="100" height="40" class="me-2">
+            </a>
+        </div>
+        {{-- Button Logout --}}
+        <div class="d-flex align-items-center gap-3">
+            <form method="POST" action="{{ route('logout') }}" class="mb-0">
+            @csrf
+                <button type="submit" class="btn-outline-danger btn-md">Logout</button>
+            </form>
+        </div>
     </div>
-  </div>
+</nav>
+
+{{-- SIDEBAR --}}
+<nav id="sidebar" class="sidebar px-5 py-3">
+    <div class="d-flex flex-column h-100">
+        {{-- Logo --}}
+        <div class=" d-flex justify-content-between align-items-center px-3 py-3">
+            <p class="nav-brand mb-0">Menu Admin</p>
+        </div>
+        {{-- Menu List --}}
+        <ul class="nav flex-column mt-3 px-0">
+            <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center gap-2 py-2  {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <i class="fas fa-home"></i> <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center gap-2 py-2 {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                    <i class="fa-solid fa-cart-shopping"></i> <span>Pesanan</span>
+                </a>
+            </li>
+            <li class="nav-item mb-2">
+                <a class="nav-link d-flex align-items-center justify-content-between py-2  {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#submenuProducts" role="button"
+                    aria-expanded="{{ request()->routeIs('admin.products.*') ? 'true' : 'false' }}" aria-controls="submenuProducts">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-box-open"></i> <span>Produk</span>
+                    </div>
+                    <i class="chevron-icon fa-solid small" aria-hidden="true"></i>
+                </a>
+                <div class="collapse {{ request()->routeIs('admin.products.*') ? 'show' : '' }}" id="submenuProducts">
+                    <ul class="nav flex-column ms-4 mt-2">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link d-flex align-items-center gap-2 py-2 {{ request()->routeIs('admin.products.index') ? 'active' : '' }}" href="{{ route('admin.products.index') }}">
+                                 <span>Daftar Produk</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link d-flex align-items-center gap-2 py-2 {{ request()->routeIs('admin.products.create') ? 'active' : '' }}" href="{{ route('admin.products.create') }}">
+                                <span>Tambah Produk</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>

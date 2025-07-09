@@ -7,10 +7,11 @@ use App\Models\Product;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    // Controller - DashboardController
+
 public function index()
 {
     $ordersQuery = Order::where('status', '!=', 'draft');
@@ -18,7 +19,14 @@ public function index()
     return view('admin.dashboard', [
         'totalOrders' => $ordersQuery->count(),
         'totalProducts' => Product::count(),
-        'totalUsers' => User::count(),
+        'totalUsers' => DB::table(
+            DB::raw("
+                (SELECT DISTINCT 
+                    CONCAT(LOWER(TRIM(customer_name)), '-', LOWER(TRIM(email)), '-', TRIM(whatsapp)) AS identity 
+                 FROM orders
+                 WHERE email IS NOT NULL AND whatsapp IS NOT NULL
+                ) as sub")
+        )->count(),
         'totalRevenue' => $ordersQuery->sum('total_price'),
         'latestOrders' => $ordersQuery->with('product')->latest()->take(5)->get(),
     ]);

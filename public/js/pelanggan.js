@@ -1,25 +1,26 @@
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const produkToggle = document.getElementById('produkDropdown');
-    const megaMenu = produkToggle?.nextElementSibling;
-    const isTouchDevice = !window.matchMedia('(hover: hover)').matches;
+  document.addEventListener("DOMContentLoaded", () => {
+    const dropdown = document.querySelector(".nav-item.dropdown");
+    const menu = dropdown.querySelector(".mega-menu");
 
-    if (isTouchDevice && produkToggle && megaMenu) {
-      let isOpen = false;
+    let timeout;
 
-      produkToggle.addEventListener('click', function (e) {
-        e.preventDefault();
-        isOpen = !isOpen;
-        megaMenu.classList.toggle('d-none', !isOpen);
-      });
+    dropdown.addEventListener("mouseenter", () => {
+      clearTimeout(timeout);
+      menu.style.opacity = "1";
+      menu.style.visibility = "visible";
+      menu.style.pointerEvents = "auto";
+    });
 
-      document.addEventListener('click', function (e) {
-        if (!produkToggle.contains(e.target) && !megaMenu.contains(e.target)) {
-          isOpen = false;
-          megaMenu.classList.add('d-none');
-        }
-      });
-    }
+    dropdown.addEventListener("mouseleave", () => {
+      timeout = setTimeout(() => {
+        menu.style.opacity = "0";
+        menu.style.visibility = "hidden";
+        menu.style.pointerEvents = "none";
+      }, 200); // delay 200ms
+    });
+ 
+    
 
 
 
@@ -65,11 +66,11 @@ console.log("Filtered Products:", filtered.map(p => p.name));
 
     col.innerHTML = `
       <a href="${product.url}" class="text-decoration-none text-dark">
-        <div class="product-card" style="border: 1px solid #ddd; padding: 16px; border-radius: 5px;">
+        <div class="product-card" style="shadow-sm; padding: 16px; border-radius: 8px;">
           <img 
             src="${imgSrc}" 
             alt="${product.name}" 
-            style="width: 100%; height: 180px; object-fit: cover; border-radius: 5px;"
+            class="product-img"
             onerror="this.onerror=null;this.src='images/default.jpg';"
           />
           <p class="product-title">${product.name}</p>
