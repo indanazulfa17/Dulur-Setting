@@ -5,34 +5,37 @@
 @section('content')
 
 
-<div class="container py-5">
+
 
 {{-- Header --}}
+<header>
+  <h2>Konfirmasi Pesanan</h2>
+  <div class="desc" style="margin-top: 24px; color: white">Lengkapi data diri kamu untuk konfirmasi pemesanan</div>
+</header>
 <div class="container py-5">
-    <h4 class="sub-heading text-center" style="color: #FFA600">Konfirmasi Pesanan</h4>
-    <div class="desc text-center">Lengkapi data diri kamu untuk konfirmasi pemesanan </div>
-</div>
 
 {{-- Breadcrumb --}}
-<div class="breadcrumb-bg mb-3">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb custom-breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('pelanggan.beranda') }}"><i class="fa-solid fa-house"></i> Beranda</a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('pelanggan.products.show', $order->product->id) }}"> Produk</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page"> Konfirmasi</li>
-        </ol>
-    </nav>
-</div>
+<a href="{{ route('pelanggan.products.show', [
+        'id' => $order->product->id,
+        'material_id' => $order->material_id,
+        'size_id' => $order->size_id,
+        'lamination_id' => $order->lamination_id,
+        'quantity' => $order->quantity,
+        'custom_description' => $order->custom_description,
+    ]) }}" class="breadcrumb-back-link mb-3 d-inline-block">
+    <i class="fas fa-arrow-left me-1"></i> Kembali ke Produk
+</a>
+
+
+
 
 {{-- Ringkasan pesanan --}}
 <div class="row shadow-sm bg-white rounded mb-0">
-    <div class="col-md-6">
-        <div class="form-pemesanan">
+    <div class="col-md-6 order-mb-2">
+        <div class="form-pemesanan" style="margin-bottom: 0px">
             <h5 class="sub-heading"> Ringkasan Pesanan</h5>
+            <div class=" p-4 border rounded bg-white">
+            
 
         {{-- Info Produk --}}
         <div class="heading">
@@ -40,6 +43,8 @@
                 <span class="text" style="color: #343F52; font-weight: 600">Produk</span>
                 <span class="text" style="color: #60697B; font-weight: 600">{{ $order->product->name }}</span>
             </div>
+            
+
             <div class="d-flex justify-content-between mb-2">
                 <span class="text" style="color: #343F52; font-weight: 600">Jumlah</span>
                 <span class="text" style="color: #60697B; font-weight: 400">{{ $order->quantity }}</span>
@@ -91,21 +96,25 @@
             </div>
             @endif
         </div>
-
+<hr>
         {{-- Total Harga --}}
         <div class="d-flex justify-content-between mb-3">
-            <div style="color: #FFA600; font-weight:700">Total Harga</div>
-            <div style="color: #005FCA; font-weight:700">Rp{{ number_format($order->total_price, 0, ',', '.') }}</div>
+            <div style="color: #343F52; font-weight:600">Total Harga Produk</div>
+            <div style="color: #FFA600; font-weight:700">Rp{{ number_format($order->total_price, 0, ',', '.') }}</div>
         </div>
+        
 
+        </div>
         </div>
     </div>
 
     {{-- Form konfirmasi --}}
-    <div class="col-md-6">
+    <div class="col-md-6 order-mb-1">
         <div class="form-pemesanan">
             <h5 class="sub-heading">Form Konfirmasi</h5>             
-                <form id="formKonfirmasi" action="{{ route('order.finalize', $order->id) }}" method="POST" enctype="multipart/form-data">
+                <form id="formKonfirmasi" action="{{ route('order.finalize', $order->id) }}" method="POST">
+
+
                 @csrf
                 {{-- Nama Pemesan --}}
                 <div class="form-confirm">
@@ -118,7 +127,10 @@
                 {{-- Whatsapp --}}
                 <div class="form-confirm">
                     <label for="whatsapp" class="form-label">No. WhatsApp<span class="text-danger">*</span></label>
-                    <input type="text" name="whatsapp" id="whatsapp" class="form-control" placeholder="Masukkan No. Whatsapp" required>
+                    <input type="text" name="whatsapp" id="whatsapp" class="form-control @error('whatsapp') is-invalid @enderror"
+       placeholder="Contoh: 6281234567890" pattern="628[0-9]{8,15}" title="Gunakan format 628xxxxxxxxx"
+       required>
+
                     @error('whatsapp')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -140,69 +152,96 @@
                         <option value="kirim">Dikirim</option>
                     </select>
                 </div>
-                {{-- Alamat Pengiriman --}}
-                <div class="form-confirm" id="alamatContainer" style="display: none;">
-                    <label for="shipping_address" class="form-label">Alamat Pengiriman<span class="text-danger">*</span></label>
-                    <textarea name="shipping_address" id="shipping_address" class="form-control" rows="3" placeholder="Masukkan Alamat Lengkap Pengiriman"></textarea>
-                </div>
-
-                {{-- Intruksi Pembayaran --}}
-                <div class="payment mt-4 p-4 ">
-                    <h5 class="judul" style="font-weight:bold"> Instruksi Pembayaran</h5>
-                    <p>Silakan lakukan pembayaran ke rekening berikut:</p>
-                    <div class="mb-3 d-flex align-items-center">
-                        <img src="{{ asset('images/konfirmasi/bca.jpg') }}" alt="Bank BCA" style="width: 40px; height: auto;" class="me-3">
-                    <div>
-                        <p style="margin-bottom: 2px; font-weight: 600">Bank BCA</p>
-                        <p style="margin-bottom: 2px;">No.Rek: 1234567890 (a.n. Mulyadi Mian)</p>
-                    </div>
-                    </div>
                 
-                    <div class="mb-3 d-flex align-items-center">
-                        <img src="{{ asset('images/konfirmasi/dana.png') }}" alt="DANA" style="width: 40px; height: auto;" class="me-3">
-                    <div>
-                        <p style="margin-bottom: 2px; font-weight: 600">DANA</p>
-                        <p style="margin-bottom: 2px;">No: 0812-3456-7890 (a.n. Mulyadi Mian)</p>
-                    </div>
-                    </div>
+                {{-- Alamat Pengiriman --}}
+                <div id="alamatContainer" style="display: none;">
+    <div class="form-confirm">
+        <label for="address_line" class="form-label">Alamat Lengkap<span class="text-danger">*</span></label>
+        <input type="text" name="address_line" id="address_line" class="form-control" placeholder="Contoh: Jl. Merpati No.123" >
+    </div>
+    <div class="form-confirm">
+        <label for="district" class="form-label">Kecamatan<span class="text-danger">*</span></label>
+        <input type="text" name="district" id="district" class="form-control" placeholder="Contoh: Pasar Minggu" >
+    </div>
+    <div class="form-confirm">
+        <label for="city" class="form-label">Kota / Kabupaten<span class="text-danger">*</span></label>
+        <input type="text" name="city" id="city" class="form-control" placeholder="Contoh: Jakarta Selatan" >
+    </div>
+    <div class="form-confirm">
+        <label for="province" class="form-label">Provinsi<span class="text-danger">*</span></label>
+        <input type="text" name="province" id="province" class="form-control" placeholder="Contoh: DKI Jakarta" >
+    </div>
+    <div class="form-confirm">
+        <label for="postal_code" class="form-label">Kode Pos<span class="text-danger">*</span></label>
+        <input type="text" name="postal_code" id="postal_code" class="form-control" pattern="[0-9]{5}" title="Masukkan 5 digit angka" placeholder="Contoh: 12520" >
+    </div>
+    <div class="form-confirm">
+    <label for="courier" class="form-label">Kurir<span class="text-danger">*</span></label>
+    <select name="courier" id="courier" class="form-control" >
+        <option value="">-- Pilih Kurir --</option>
+        <option value="jne">JNE</option>
+        <option value="pos">POS</option>
+        <option value="tiki">TIKI</option>
+    </select>
+</div>
 
-                    <div class="mb-3 d-flex align-items-center">
-                        <img src="{{ asset('images/konfirmasi/ovo.png') }}" alt="OVO" style="width: 40px; height: auto;" class="me-3">
-                    <div>
-                        <p style="margin-bottom: 2px; font-weight: 600">OVO</p>
-                        <p style="margin-bottom: 2px;">No: 0812-9876-5432 (a.n. Mulyadi Mian)</p>
-                    </div>
-                    </div>
 
-                        <p class="mb-0 mt-3">Setelah transfer, Anda bisa unggah bukti pembayaran di bawah ini atau kirimkan lewat WhatsApp kami.</p>
-                </div>
-                {{-- Upload Bukti (Opsional) --}}
-                <div class="form-confirm">
-                    <label for="payment_proof" class="form-label">Upload Bukti Pembayaran</label>
-                    <input type="file" name="payment_proof" id="payment_proof" class="form-control" accept=".jpg,.jpeg,.png,.pdf">
-                </div>
+<div class="form-confirm">
+    <label class="form-label">Ongkos Kirim</label>
+    <input type="text" readonly class="form-control" id="shipping_cost_display" value="Rp0">
+    <input type="hidden" name="shipping_cost" id="shipping_cost">
+</div>
+
+</div>
+
+
+                
                 {{-- Button Konfirmasi --}}
                 <div class="text-center">
                     <button type="button" class="btn btn-md btn-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#konfirmasiModal">
-                        Konfirmasi Pesanan
+                        Lanjut Pembayaran
                     </button>
                 </div>
+                {{-- Button Batalkan Pesanan --}}
+<div class="text-center">
+    <button type="button" class="btn btn-md btn-danger mt-2 w-100" data-bs-toggle="modal" data-bs-target="#batalModal">
+        Batalkan Pesanan
+    </button>
+</div>
+
                 </form>
                 
 <!-- Modal Konfirmasi Simpan Produk -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content custom-modal">
-      <div class="modal-simpan">
-        <i class="bi bi-check-circle-fill"></i> 
-      </div>
+    
       <div class="modal-body text-center">
-        <h5 class="modal-title mb-3">Konfirmasi Pesanan</h5>
-        <p>Apakah kamu yakin ingin konfirmasi pesanan ini?</p>
+        <p>Apakah kamu yakin ingin konfirmasi pesanan ini, dan lanjut ke pembayaran?</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
         <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Batalkan</button>
-        <button type="submit" class="btn btn-simpan" id="submitKonfirmasi">Konfirmasi</button>
+        <button type="submit" class="btn btn-simpan" id="submitKonfirmasi">Lanjut</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Konfirmasi Pembatalan Pesanan -->
+<div class="modal fade" id="batalModal" tabindex="-1" aria-labelledby="batalModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal">
+   
+      <div class="modal-body text-center">
+        <p>Apakah kamu yakin ingin membatalkan pesanan ini?</p>
+      </div>
+      <div class="modal-footer justify-content-center border-0">
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Kembali</button>
+        <form action="{{ route('order.cancel', $order->id) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Ya, Batalkan Pesanan</button>
+        </form>
       </div>
     </div>
   </div>
@@ -212,10 +251,7 @@
         </div>
     </div>
 
-<!-- Tombol WhatsApp Sticky dengan Font Awesome -->
-<a href="https://wa.me/6285222259229" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-</a>
+
 </div>
 @endsection
 
@@ -223,16 +259,106 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const shippingMethod = document.getElementById('shipping_method');
+    const alamatContainer = document.getElementById('alamatContainer');
+    const submitKonfirmasi = document.getElementById('submitKonfirmasi');
+    const formKonfirmasi = document.getElementById('formKonfirmasi');
+    const postalCode = document.getElementById('postal_code');
+    const courierSelect = document.getElementById('courier');
+    const serviceSelect = document.getElementById('service');
+    const shippingCostDisplay = document.getElementById('shipping_cost_display');
+    const shippingCostInput = document.getElementById('shipping_cost');
+
     // Tampilkan alamat jika metode kirim dipilih
-    document.getElementById('shipping_method').addEventListener('change', function () {
-        const container = document.getElementById('alamatContainer');
-        container.style.display = this.value === 'kirim' ? 'block' : 'none';
-    });
+    
+    shippingMethod.addEventListener('change', function () {
+    if (this.value === 'kirim') {
+        alamatContainer.style.display = 'block';
+        // Tambahkan required ke semua input di alamatContainer
+        document.querySelectorAll('#alamatContainer input, #alamatContainer select').forEach(el => {
+            el.setAttribute('required', 'required');
+        });
+    } else {
+        alamatContainer.style.display = 'none';
+        // Hapus required di semua input jika metode ambil
+        document.querySelectorAll('#alamatContainer input, #alamatContainer select').forEach(el => {
+            el.removeAttribute('required');
+        });
+    }
+});
+
 
     // Submit form dari modal
-    document.getElementById('submitKonfirmasi').addEventListener('click', function () {
-        document.getElementById('formKonfirmasi').submit();
+    submitKonfirmasi.addEventListener('click', function () {
+        formKonfirmasi.submit();
     });
-</script>
 
+    // Event fetch ongkir ketika kode pos blur dan kurir dipilih
+    postalCode.addEventListener('blur', tryFetchOngkir);
+    courierSelect.addEventListener('change', tryFetchOngkir);
+
+    // Event listener service
+    serviceSelect.addEventListener('change', function () {
+        const cost = this.value;
+        shippingCostDisplay.value = cost ? 'Rp' + Number(cost).toLocaleString() : 'Rp0';
+        shippingCostInput.value = cost || 0;
+    });
+
+    function tryFetchOngkir() {
+        // Pastikan data lengkap
+        if (postalCode.value.length === 5 && courierSelect.value !== '') {
+            fetchOngkir();
+        } else {
+            resetOngkir();
+        }
+    }
+
+    function resetOngkir() {
+        serviceSelect.innerHTML = '<option value="">-- Pilih Layanan --</option>';
+        shippingCostDisplay.value = 'Rp0';
+        shippingCostInput.value = 0;
+    }
+
+    function fetchOngkir() {
+        // NOTE: Ganti destinationCode dengan city_id / kabupaten_id dari database mu
+        const originCode = 501; // contoh: Yogyakarta
+        const destinationCode = 114; // HARUS diganti dengan id kota user (bukan postal code)
+        const weightInGrams = 1000;
+        const courierCode = courierSelect.value;
+
+        fetch('/cek-ongkir', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({
+                origin: originCode,
+                destination: destinationCode,
+                weight: weightInGrams,
+                courier: courierCode,
+            }),
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.details) {
+                let options = '<option value="">-- Pilih Layanan --</option>';
+                data.details.forEach(service => {
+                    const cost = service.cost[0].value;
+                    options += `<option value="${cost}">${service.service} - Rp${cost.toLocaleString()}</option>`;
+                });
+                serviceSelect.innerHTML = options;
+            } else {
+                resetOngkir();
+                alert('Data ongkir tidak ditemukan.');
+            }
+        })
+        .catch(() => {
+            resetOngkir();
+            alert('Gagal mengambil data ongkir.');
+        });
+    }
+});
+</script>
 @endsection

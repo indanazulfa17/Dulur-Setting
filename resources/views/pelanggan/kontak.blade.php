@@ -31,7 +31,7 @@
         <img src="{{ asset('images/kontak/icon-telepon.png') }}" alt="Pilih Produk" width="36px" height="36px">
         <div class="ms-3">
           <p class="kontak-item">No Telepon</p>
-          <p class="kontak-items"><a href="tel:+6285222259229"> +62 852-2225-9229</a></p>
+          <p class="kontak-items"><a href="tel:+62895612811600"> +62 852-2225-9229</a></p>
         </div>
       </div>
       {{-- Email --}}
@@ -117,14 +117,11 @@
       Dulur Setting menawarkan layanan konsultasi yang dapat membantu anda memilih solusi percetakan terbaik <br>
       untuk kebutuhan anda. Kami siap melayani anda dengan sepenuh hati!
     </p>
-    <a href="https://wa.me/6285222259229" class="btn btn btn-secondary btn-md"><i class="bi bi-whatsapp"></i>Konsultasikan via WhatsApp</a>
+    <a href="https://wa.me/62895612811600" class="btn btn btn-secondary btn-md"><i class="bi bi-whatsapp"></i>Konsultasikan via WhatsApp</a>
   </div>
 </section>
 
-{{-- WHATSAPP STICKY --}}
-<a href="https://wa.me/6285222259229" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-</a>
+
 @endsection
 
 

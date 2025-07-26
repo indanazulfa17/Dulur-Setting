@@ -28,9 +28,16 @@ public function index()
                 ) as sub")
         )->count(),
         'totalRevenue' => $ordersQuery->sum('total_price'),
-        'latestOrders' => $ordersQuery->with('product')->latest()->take(5)->get(),
+
+        // hanya tampilkan pesanan status 'menunggu'
+        'latestOrders' => Order::with('product')
+            ->where('status', 'menunggu')
+            ->latest()
+            ->take(5)
+            ->get(),
     ]);
 }
+
 
 }
 

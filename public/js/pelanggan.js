@@ -74,7 +74,7 @@ console.log("Filtered Products:", filtered.map(p => p.name));
             onerror="this.onerror=null;this.src='images/default.jpg';"
           />
           <p class="product-title">${product.name}</p>
-          <div class="price">Harga dari ${product.price}</div>
+          <div class="price">Harga mulai dari ${product.price}</div>
         </div>
       </a>
     `;

@@ -44,17 +44,21 @@
                     <td>{{ $order->product->name ?? '-' }}</td>
                     <td>{{ $order->quantity }}</td>
                     <td>
-    <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST" class="d-inline">
-        @csrf
-        @method('PUT')
-        <select name="status" onchange="this.form.submit()"
-            class="form-status 
-            {{ $order->status === 'selesai' ? 'bg-white ' : 
-                ($order->status === 'diproses' ? 'bg-white ' : 'bg-white') }}">
-            <option value="diproses" {{ $order->status == 'diproses' ? 'selected' : '' }}>Diproses</option>
-            <option value="selesai" {{ $order->status == 'selesai' ? 'selected' : '' }}>Selesai</option>
-        </select>
-    </form>
+    @php
+    $badgeClass = match ($order->status) {
+        'menunggu' => 'bg-menunggu',
+        'diproses' => 'bg-process',
+        'selesai' => 'bg-selesai',
+        'dibatalkan' => 'bg-batal',
+        default => 'bg-secondary',
+    };
+@endphp
+
+<span class="badge {{ $badgeClass }}">
+    {{ ucfirst($order->status) }}
+</span>
+
+
 </td>
 
                     <td class="text-muted small">{{ $order->created_at->diffForHumans() }}</td>
@@ -82,6 +86,7 @@
             @endforelse
         </tbody>
     </table>
+    
 </div>
 
 
@@ -98,7 +103,7 @@
         <p>Yakin ingin menghapus item ini?</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
-        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Batal</button>
         <form id="deleteForm" method="POST" class="d-inline">
           @csrf
           @method('DELETE')

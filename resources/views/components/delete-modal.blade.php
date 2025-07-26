@@ -3,14 +3,14 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content custom-modal">
       <div class="modal-hapus text-danger">
-        <i class="bi bi-trash-fill"></i>
+        <i class="fa-solid fa-trash-can"></i>
       </div>
       <div class="modal-body text-center">
         <h5 class="modal-title mb-3" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
         <p>Yakin ingin menghapus item ini?</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
-        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Batal</button>
         <form id="deleteForm" method="POST" class="d-inline">
           @csrf
           @method('DELETE')

@@ -22,7 +22,7 @@
 <div class="container-custom">
   {{-- Tentang --}}
   <section class="about py-5">
-    <img src="{{ asset('images/tentang-kami/img-about.png') }}" alt="Foto Dulur Setting" data-aos="fade-right" data-aos-delay="100" data-aos-offset="200">
+    <img src="{{ asset('images/tentang-kami/img-about.jpg') }}" alt="Foto Dulur Setting" data-aos="fade-right" data-aos-delay="100" data-aos-offset="200">
     <div class="about-text" data-aos="fade-left" data-aos-delay="200" data-aos-offset="200">
       <h5 class="heading">Tentang Dulur Setting</h5>
       <h4 class="sub-heading">Mewujudkan Ide Menjadi Karya Cetak</h4>
@@ -59,13 +59,10 @@
       Dulur Setting menawarkan layanan konsultasi yang dapat membantu anda memilih solusi percetakan terbaik <br>
       untuk kebutuhan anda. Kami siap melayani anda dengan sepenuh hati!
     </p>
-    <a href="https://wa.me/6285222259229" class="btn btn btn-secondary btn-md"><i class="bi bi-whatsapp"></i>Konsultasikan via WhatsApp</a>
+    <a href="https://wa.me/62895612811600" class="btn btn btn-secondary btn-md"><i class="bi bi-whatsapp"></i>Konsultasikan via WhatsApp</a>
   </div>
 </section>
 
-{{-- WHATSAPP STICKY --}}
-<a href="https://wa.me/6285222259229" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-</a>
+
 @endsection
 

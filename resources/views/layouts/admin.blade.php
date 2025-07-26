@@ -22,6 +22,8 @@
 <body>
 
     @include('layouts.partials.navbar-admin')
+   
+
 
      <div class="container-fluid">
   
@@ -84,8 +86,21 @@
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
         }
-    </script>
+        function showLogoutModal() {
+    const modalElement = document.getElementById('confirmLogoutModal');
+    if (!modalElement) {
+        console.error("Modal confirmLogoutModal tidak ditemukan");
+        return;
+    }
 
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+}
+
+    </script>
+    {{-- Include Modal Logout --}}
+    @include('components.logout-modal')
+    
     {{-- Slot untuk Script Halaman --}}
     @stack('scripts')
 

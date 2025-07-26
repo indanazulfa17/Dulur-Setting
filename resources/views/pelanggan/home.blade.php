@@ -7,13 +7,13 @@
 
 {{-- HERO SECTION --}}
 <section class="hero position-relative">
-  <div class="container hero-content">
+  <div class="container">
     {{-- Summary Hero --}}
     <div class="row align-items-center">
       <div class="col-lg-10 hero-text fade-up">
         <h5>Selamat datang di Dulur Setting</h5>
         <div class="display">Solusi Percetakan Terpercaya</div>
-        <br><p>Wujudkan ide Anda jadi cetakan berkualitas mudah, cepat, dan tanpa ribet dengan layanan Dulur Setting, dan buat promosi usaha anda jadi mudah.</p>
+        <br><p>Wujudkan ide Anda jadi cetakan berkualitas mudah, cepat, dan tanpa ribet dengan layanan Dulur Setting. Buat promosi usaha anda jadi mudah.</p>
         <a href="#layanan" class="btn btn-secondary btn-md"> Lihat Layanan <i class="fa-solid fa-circle-chevron-down"></i></a>
       </div>
     </div>
@@ -43,14 +43,14 @@
       <div class="col-lg-12">
         {{-- Filter Button --}}
         <div class="filter-wrapper">
-          <button class="scroll-btn left" onclick="scrollFilter(-150)"> &#10094;</button>
+          
           <div class="filter-buttons mb-4">
             <button class="btn btn-outline-custom active me-2" onclick="filterCategory('all', this)">Semua</button>
             <button class="btn btn-outline-custom me-2" onclick="filterCategory('percetakan', this)">Percetakan</button>
             <button class="btn btn-outline-custom me-2" onclick="filterCategory('digital-printing', this)">Digital Printing</button>
             <button class="btn btn-outline-custom me-2" onclick="filterCategory('advertising', this)">Advertising</button>
           </div>
-          <button class="scroll-btn right" onclick="scrollFilter(150)">&#10095;</button>
+          
         </div>
         {{-- Product Grid --}}
         <div id="productGrid" class="row "></div>
@@ -69,7 +69,7 @@
     {{-- Summary --}}
     <h4 class="sub-heading">Butuh bantuan mendesain?</h4>
     <p> Ingin desain sesuai keinginanmu? Bisa! Dulur Setting menyediakan layanan jasa desain grafis, termasuk desain kustom. Konsultasikan kebutuhanmu, dan kami siap bantu mewujudkannya lewat WhatsApp.</p>
-    <a href="https://wa.me/6285222259229" class="btn btn-secondary btn-md">
+    <a href="https://wa.me/62895612811600" class="btn btn-secondary btn-md">
       <i class="bi bi-whatsapp"></i> Konsultasikan via WhatsApp
     </a>
   </div>
@@ -131,7 +131,7 @@
         </div>
         <div class="step-text ms-3">
           <p class="step-title fw-bold mb-1">1. Pilih Produk</p>
-          <p class="step-description mb-0">Temukan produk cetak sesuai kebutuhan Anda, dari poster, brosur, kartu nama, hingga stiker.</p>
+          <p class="step-description mb-0">Temukan produk cetak sesuai dengan kebutuhan Anda pada layanan kami.</p>
         </div>
       </div>
       <div class="step-item d-flex" data-aos="fade-up" data-aos-delay="300">
@@ -140,7 +140,7 @@
         </div>
         <div class="step-text ms-3">
           <p class="step-title fw-bold mb-1">2. Custom Design</p>
-          <p class="step-description mb-0">Isi detail pesanan : ukuran, bahan, jumlah, dan unggah file desain yang ingin dicetak</p>
+          <p class="step-description mb-0">Isi detail pesanan : ukuran, bahan, jumlah, dan unggah file desain yang ingin dicetak. Selain itu, kamu juga bisa cek harga.</p>
         </div>
       </div>
       <div class="step-item d-flex" data-aos="fade-up" data-aos-delay="300">
@@ -148,8 +148,8 @@
           <img src="{{ asset('images/cara-pemesanan/icon-3.png') }}" alt="Custom Desain">
         </div>
         <div class="step-text ms-3">
-          <p class="step-title fw-bold mb-1">3. Cek Harga</p>
-          <p class="step-description mb-0">Lihat estimasi harga dari pesanan kamu sebelum kamu melanjutkan ke tahap pemesanan</p>
+          <p class="step-title fw-bold mb-1">3. Konfirmasi Pesanan</p>
+          <p class="step-description mb-0">Lihat detail pesanan anda, kemudian isi form : nama lengkap, no whatsapp, metode pengambilan, serta bisa juga upload file bukti pembayaran.</p>
         </div>
       </div>
       <div class="step-item d-flex" data-aos="fade-up" data-aos-delay="300">
@@ -158,7 +158,7 @@
         </div>
         <div class="step-text ms-3">
           <p class="step-title fw-bold mb-1">4. Order</p>
-          <p class="step-description mb-0">Klik "Pesan Sekarang" kamu akan diarahkan ke WhatsApp untuk konfirmasi dan proses pembayaran</p>
+          <p class="step-description mb-0">Klik "Konfirmasi Sekarang" maka pesanan otomatis masuk ke dashboard admin dan info lanjut akan diarahkan ke WhatsApp.</p>
         </div>
       </div>
     </div>
@@ -235,14 +235,11 @@
       Dulur Setting menawarkan layanan konsultasi yang dapat membantu anda memilih solusi percetakan terbaik <br>
       untuk kebutuhan anda. Kami siap melayani anda dengan sepenuh hati!
     </p>
-    <a href="https://wa.me/6285222259229" class="btn btn btn-secondary btn-md"><i class="bi bi-whatsapp"></i>Konsultasikan via WhatsApp</a>
+    <a href="https://wa.me/62895612811600" class="btn btn btn-secondary btn-md"><i class="bi bi-whatsapp"></i>Konsultasikan via WhatsApp</a>
   </div>
 </section>
 
-{{-- Whatsapp Sticky --}}
-<a href="https://wa.me/6285222259229" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
-    <i class="fab fa-whatsapp"></i>
-</a>
+
 @endsection
 
 <script>

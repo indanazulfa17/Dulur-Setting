@@ -33,6 +33,13 @@
     {{-- ✅ Konten halaman --}}
     <main>
         @yield('content')
+        {{-- Whatsapp Sticky --}}
+<a href="https://wa.me/62895612811600" class="whatsapp-float" target="_blank" title="Hubungi kami via WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+{{-- Help Modal --}}
+<x-help-modal />
     </main>
 
     {{-- ✅ Footer --}}

@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use App\Models\Product;
-use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
+use App\Models\Product;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
 
     $view->with('groupedProducts', $groupedProducts);
 });
+
+Paginator::useBootstrap();
 
 }
 

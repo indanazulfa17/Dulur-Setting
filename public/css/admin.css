@@ -38,21 +38,7 @@ body {
   text-decoration: underline;
   color: var(--primary-300-color); 
 }
-.breadcrumb-back-link {
-  font-size: 16px;
-  font-weight: 400;
-  font-family: 'Inter';
-  color: var(--primary-color);
-  text-decoration: none;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  transition: color 0.3s ease, text-decoration 0.3s ease;
-}
-.breadcrumb-back-link:hover {
-  color: var(--primary-300-color);
-  text-decoration: underline;
-}
+
 
 /* ========== SIDEBAR ========== */
 .sidebar {
@@ -97,7 +83,7 @@ body {
   border-bottom: 1px solid #f1f1f1;
 }
 .navbar{
-  max-width: 1440px;
+  width: 100%;
   padding-left: 80px;
   padding-right: 80px;
   margin: 0 auto;
@@ -369,12 +355,93 @@ body {
   padding: 0.35rem 0.5rem;
 }
 .bg-selesai{
-  background-color: var(--success-color);
-  color: var(--text-light);
+  background-color: #d5f5e3;
+  color: var(--success-color);
   padding: 0.35rem 0.5rem;
+}
+.bg-menunggu{
+  background-color: var(--secondary-100-color);
+  color: var(--secondary-color);
+  padding: 0.35rem 0.5rem;
+}
+.bg-batal{
+  background-color: #f8d7da;
+  color: var(--danger-color);
+  padding: 0.35rem 0.5rem;
+}
+.img-hover-wrapper {
+  position: relative;
+}
+
+.lihat-gambar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* overlay hitam transparan */
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0; /* awalnya hilang */
+  transition: opacity 0.3s ease;
+  border-radius: 8px; /* menyesuaikan radius gambar jika ada */
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+}
+
+.img-hover-wrapper:hover .lihat-gambar-overlay {
+  opacity: 1; /* muncul saat di-hover */
 }
 
 
+/* ===============================
+   RESPONSIVE ADMIN > 1440px 
+   =============================== */
+
+@media (min-width: 1441px) and (max-width: 1919px) {
+  .container, 
+  .container-fluid, 
+  .navbar, 
+  .container-produk {
+    width: 100%; /* naik dari 1440 untuk layar besar */
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+  #mainContent {
+    margin-left: 280px; /* sesuaikan jika sidebar fixed lebar 280px */
+  }
+}
+
+/* ===============================
+   RESPONSIVE ADMIN >= 1920px 
+   =============================== */
+@media (min-width: 1920px) {
+  .container, 
+  .container-fluid, 
+  .navbar, 
+  .container-produk {
+    max-width: 1920px;
+    padding-left: 120px;
+    padding-right: 120px;
+    margin: 0 auto;
+  }
+
+  #mainContent {
+    margin-top: 80px; /* tinggi topbar */
+    margin-left: 150px; /* lebar sidebar */
+    height: calc(100vh - 68px);
+    overflow-y: auto;
+    padding: 2.5rem 0px 2.5rem 80px; /* top right bottom left */
+    background: #fff;
+    overflow-x: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+    max-width: 1920px;
+    box-sizing: border-box;
+  }
+}
 
 
 

@@ -8,12 +8,12 @@
             </a>
         </div>
         {{-- Button Logout --}}
-        <div class="d-flex align-items-center gap-3">
-            <form method="POST" action="{{ route('logout') }}" class="mb-0">
-            @csrf
-                <button type="submit" class="btn-outline-danger btn-md">Logout</button>
-            </form>
-        </div>
+<div class="d-flex align-items-center gap-3">
+  <button type="button" class="btn-outline-danger btn-md" onclick="showLogoutModal()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+  </button>
+</div>
+
     </div>
 </nav>
 
@@ -31,10 +31,29 @@
                     <i class="fas fa-home"></i> <span>Dashboard</span>
                 </a>
             </li>
+            {{-- Pesanan (Dropdown) --}}
             <li class="nav-item mb-2">
-                <a class="nav-link d-flex align-items-center gap-2 py-2 {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
-                    <i class="fa-solid fa-cart-shopping"></i> <span>Pesanan</span>
+                <a class="nav-link d-flex align-items-center justify-content-between py-2 {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#submenuOrders" role="button"
+                   aria-expanded="{{ request()->routeIs('admin.orders.*') ? 'true' : 'false' }}" aria-controls="submenuOrders">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-cart-shopping"></i> <span>Pesanan</span>
+                    </div>
+                    <i class="chevron-icon fa-solid small" aria-hidden="true"></i>
                 </a>
+                <div class="collapse {{ request()->routeIs('admin.orders.*') ? 'show' : '' }}" id="submenuOrders">
+                    <ul class="nav flex-column ms-4 mt-2">
+                        <li class="nav-item mb-2">
+                            <a class="nav-link d-flex align-items-center gap-2 py-2 {{ request()->routeIs('admin.orders.new') ? 'active' : '' }}" href="{{ route('admin.orders.new') }}">
+                                <span>Pesanan Baru</span>
+                            </a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a class="nav-link d-flex align-items-center gap-2 py-2 {{ request()->routeIs('admin.orders.index') ? 'active' : '' }}" href="{{ route('admin.orders.index') }}">
+                                <span>Riwayat Pesanan</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </li>
             <li class="nav-item mb-2">
                 <a class="nav-link d-flex align-items-center justify-content-between py-2  {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#submenuProducts" role="button"

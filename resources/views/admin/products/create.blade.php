@@ -229,7 +229,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content custom-modal">
       <div class="modal-simpan">
-        <i class="bi bi-check-circle-fill"></i> <!-- Ganti ikon sesuai konteks -->
+        <i class="fa-solid fa-trash-can"></i>
       </div>
       <div class="modal-body text-center">
         <h5 class="modal-title mb-3">Konfirmasi Simpan Produk</h5>

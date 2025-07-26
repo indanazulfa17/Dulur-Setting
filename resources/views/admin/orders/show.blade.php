@@ -38,11 +38,17 @@
                 <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Produk</dt>
                 <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">{{ $order->product->name ?? '-' }}</dd>
 
-                <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Bahan</dt>
-                <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">{{ $order->material->name ?? '-' }}</dd>
+                @if ($order->material_id)
+    <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Bahan</dt>
+    <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">{{ $order->material->name }}</dd>
+@endif
 
-                <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Ukuran</dt>
-                <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">{{ $order->size->name ?? '-' }}</dd>
+
+                @if ($order->size_id)
+    <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Ukuran</dt>
+    <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">{{ $order->size->name }}</dd>
+@endif
+
 
                 <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Laminasi</dt>
                 <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">{{ $order->lamination->name ?? '-' }}</dd>
@@ -79,11 +85,31 @@
                 @if($order->custom_description)
                     <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Deskripsi Tambahan</dt>
                     <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">
-                        <div class="border rounded bg-white p-2">{{ $order->custom_description }}</div>
+                        {{ $order->custom_description }}
                     </dd>
                 @endif
             </dl>
         </section>
+        @php
+    $waMessage = "Halo, pesanan Anda untuk produk *" . ($order->product->name ?? '-') . "* saat ini berstatus: *" . ucfirst($order->status) . "*.";
+
+    if (!$order->payment_proof) {
+        $waMessage .= "\n\nTotal pesanan Anda *Rp" . number_format($order->total_price, 0, ',', '.') . "*. Silakan lakukan pembayaran dan upload bukti pembayaran.";
+    }
+
+    $waMessage .= "\n\nTerima kasih telah memesan di Dulur Setting!";
+
+    $waLink = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $order->whatsapp) . '?text=' . urlencode($waMessage);
+@endphp
+
+
+@if ($order->whatsapp)
+    <a href="{{ $waLink }}" target="_blank" class="btn btn-success">
+        <i class="fab fa-whatsapp me-1"></i> Kirim Status via WhatsApp
+    </a>
+@else
+    <p class="text-muted"><i class="fas fa-info-circle"></i> Nomor WhatsApp tidak tersedia.</p>
+@endif
 
         {{-- PENGAMBILAN --}}
         <section class="mb-4 p-3 rounded shadow-sm bg-white">
@@ -101,36 +127,67 @@
 
         {{-- DESAIN --}}
         <section class="mb-4 p-3 rounded shadow-sm bg-white">
-            <div class="pesanan-head mb-3">Desain</div>
-            @if ($order->design_file)
-                <div class="mb-2">
-                    <div class="mb-2" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">File Upload :</div>
-                    <a href="{{ asset('storage/' . $order->design_file) }}" target="_blank">
-                        <img src="{{ asset('storage/' . $order->design_file) }}" alt="Desain" class="img-thumbnail" style="max-width: 200px;">
-                    </a>
-                </div>
-            @endif
+    <div class="pesanan-head mb-3">Desain</div>
 
-            @if ($order->design_link)
-                <div class="mb-2" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Link Desain :</div> 
-                    <a href="{{ $order->design_link }}" target="_blank">{{ $order->design_link }}</a>
-                </p>
-            @endif
+    @if ($order->design_file)
+        <div class="mb-2">
+            <div class="mb-2" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">File Upload :</div>
+            <div class="img-hover-wrapper" style="position: relative; display: inline-block;">
+                <a href="{{ asset('storage/' . $order->design_file) }}" target="_blank">
+                    <img src="{{ asset('storage/' . $order->design_file) }}" alt="Desain" class="img-fluid" style="max-width: 300px;">
+                    <div class="lihat-gambar-overlay">Lihat Gambar</div>
+                </a>
+            </div>
+        </div>
+    @endif
 
-            @if (!$order->design_file && !$order->design_link)
-                <p class="text-muted">Tidak ada file atau link desain tersedia.</p>
-            @endif
-        </section>
+    @if ($order->design_link)
+        <div class="mb-2" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Link Desain :</div> 
+        <a href="{{ $order->design_link }}" target="_blank">{{ $order->design_link }}</a>
+    @endif
+
+    @if (!$order->design_file && !$order->design_link)
+        <p class="text-muted">Tidak ada file atau link desain tersedia.</p>
+    @endif
+</section>
+
 
         {{-- BUKTI PEMBAYARAN --}}
         @if($order->payment_proof)
             <section class="mb-3 p-3 rounded shadow-sm bg-white">
-                <div class="pesanan-head mb-3">Bukti Pembayaran</div>
-                <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank">
-                    <img src="{{ asset('storage/' . $order->payment_proof) }}" class="img-fluid rounded shadow-sm" style="max-width: 300px;">
-                </a>
-            </section>
+    <div class="pesanan-head mb-3">Bukti Pembayaran</div>
+    <div class="img-hover-wrapper" style="position: relative; display: inline-block;">
+        <a href="{{ asset('storage/' . $order->payment_proof) }}" target="_blank">
+            <img src="{{ asset('storage/' . $order->payment_proof) }}" class="img-fluid" style="max-width: 300px;">
+            <div class="lihat-gambar-overlay">Lihat Gambar</div>
+        </a>
+    </div>
+</section>
         @endif
+
+@if (!in_array($order->status, ['selesai', 'dibatalkan']))
+    <section class="mt-4 p-3 rounded shadow-sm bg-white">
+        <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Ubah Status Pesanan</label>
+                <select name="status" id="status" class="form-select" required>
+                    <option value="">-- Pilih Status --</option>
+                    <option value="diproses">Diproses</option>
+                    <option value="dibatalkan">Dibatalkan</option>
+                    <option value="selesai">Selesai</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Simpan Perubahan
+            </button>
+        </form>
+    </section>
+@endif
+
 
     </div>
 </div>

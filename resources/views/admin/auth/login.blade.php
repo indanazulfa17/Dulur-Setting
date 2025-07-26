@@ -25,9 +25,16 @@
         body, html {
             height: 100%;
             margin: 0;
-            background-color: var(--bg-white);
-            font-family: 'Inter', sans-serif;
-        }
+           background: linear-gradient(135deg, #005FCA, #4686f0, #005FCA);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+    }
+
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
 
         h2, label {
             font-family: 'Montserrat', sans-serif;
@@ -40,7 +47,7 @@
         .login-box {
             background: #ffffff;
             padding: 40px;
-            border-radius: 16px;
+            border-radius: 12px;
             box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 420px;

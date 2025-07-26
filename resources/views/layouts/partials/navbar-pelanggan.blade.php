@@ -48,7 +48,7 @@
       </ul>
       {{-- Button Hubungi Kami --}}
       <div>
-        <a href="https://wa.me/6285222259229" class="btn btn-primary btn-md">
+        <a href="https://wa.me/62895612811600" class="btn btn-primary btn-md">
           <i class="bi bi-whatsapp"></i> Hubungi Kami
         </a>
       </div>

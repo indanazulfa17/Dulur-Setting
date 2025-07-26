@@ -9,8 +9,8 @@ html, body {
 }
 .container, .container-fluid {
   max-width: 1440px;
-  padding-left: 120px;
-  padding-right: 120px;
+  padding-left: 80px;
+  padding-right: 80px;
   margin: 0 auto;
 }
 .container-content{
@@ -23,7 +23,32 @@ html, body {
   position: relative;
   z-index: 1;
 }
+body.modal-open {
+  padding-right: 0 !important;
+  overflow: hidden;
+}
+.modal-body ol {
+  color: #343a40 !important; /* Ganti sesuai warna teks kamu */
+}
 
+.modal-body ol li::marker {
+  color: #60697B !important; /* Warna angka sama dengan teks */}
+
+  .breadcrumb-back-link {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Inter';
+  color: var(--primary-color);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+.breadcrumb-back-link:hover {
+  color: var(--primary-300-color);
+  text-decoration: underline;
+}
 /* Tablet: width <= 768px */
 @media (max-width: 768px) {
   .container {
@@ -280,12 +305,12 @@ a:hover {
   cursor: pointer;
   transition: color 0.3s ease, text-decoration 0.3s ease;
   gap: 8px;
-  display: inline-flex;
 }
 .btn-outline-danger:hover {
-  color: #bb2d3b;
+ color: var(--danger-color);
   text-decoration: underline;
 }
+
 
 /* Ikon di dalam tombol */
 .btn i, .btn svg {
@@ -317,20 +342,40 @@ a:hover {
   z-index: 1000;
   background-color: #25D366;
   color: white;
-  width: 72px;
-  height: 72px;
+  width: 78px;
+  height: 78px;
   border-radius: 50%;
-  font-size: 36px;
+  font-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease;
   text-decoration: none;
 }
 .whatsapp-float:hover {
   transform: scale(1.1);
   color: var(--bg-white-color);
+}
+
+
+.help-float {
+  position: fixed;
+  bottom: 105px; /* 20 (WA bottom) + 72 (WA height) + 18 (jarak antar tombol) */
+  right: 20px;
+  background-color: none ;
+  color: var(--primary-color);
+  border: none;
+  border-radius: 50%;
+  padding: 10px 16px;
+  font-size: 16px;
+  z-index: 9999;
+
+}
+
+.help-float:hover {
+  background-color: var(--primary-500-color);
+  color: white;
 }
 
 

@@ -74,10 +74,10 @@
                     <td>{{ $order->product->name ?? '-' }}</td>
                     <td>{{ $order->quantity }}</td>
                     <td>
-                        <span class="badge rounded-pill {{ 
+                        <span class="badge rounded {{ 
     $order->status === 'selesai' ? 'bg-selesai' : 
-    ($order->status === 'menunggu' ? 'bg-warning text-dark' : 
-    ($order->status === 'diproses' ? 'bg-process' : 'bg-secondary')) 
+    ($order->status === 'menunggu' ? 'bg-menunggu' : 
+    ($order->status === 'diproses' ? 'bg-process' : 'bg-process')) 
 }}">
     {{ ucfirst($order->status) }}
 </span>
@@ -113,14 +113,14 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content custom-modal">
       <div class="modal-hapus text-danger">
-        <i class="bi bi-trash-fill"></i>
+        <i class="fa-solid fa-trash-can"></i>
       </div>
       <div class="modal-body text-center">
         <h5 class="modal-title mb-3" id="confirmDeleteLabel">Konfirmasi Hapus</h5>
         <p>Yakin ingin menghapus item ini?</p>
       </div>
       <div class="modal-footer justify-content-center border-0">
-        <button type="button" class="btn btn-secondary btn-cancel" data-bs-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Batal</button>
         <form id="deleteForm" method="POST" class="d-inline">
           @csrf
           @method('DELETE')
