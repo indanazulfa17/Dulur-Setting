@@ -18,7 +18,7 @@
     <p class="text-muted">Tidak ada pesanan baru.</p>
 @else
 <div class="table-responsive">
-    <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded">
+    <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded" style="border-radius: 12px; overflow: hidden;">
     <thead class="bg-light text-dark">
         <tr>
             <th style>No</th>

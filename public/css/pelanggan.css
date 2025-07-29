@@ -375,9 +375,9 @@
 
 @media (max-width: 768px) {
   .client-logo {
-    height: 80px; 
+    height: 110px; 
     width: auto;
-    margin: 0 15px;
+    margin: 0 20px;
   }
   .client-scroll-wrapper::before,
   .client-scroll-wrapper::after {
@@ -447,8 +447,13 @@
   }
   .hero .container {
     flex-direction: column;
-   
+    
     padding: 0 30px;
+  }
+  .hero {
+    background: url('/images/hero-bg-tablet.png') center/cover no-repeat;
+    padding-top: 80px;
+    padding-bottom: 100px;
   }
   .hero h1 {
     font-size: 2rem;
@@ -476,7 +481,7 @@
   }
   .hero-img {
     height: auto;
-    width: 80%;
+    width: 100%;
     margin-top: 30px;
   }
   .feature-icon {

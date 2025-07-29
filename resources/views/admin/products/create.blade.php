@@ -3,44 +3,17 @@
 @section('content')
 
     {{-- Breadcrumb --}}
-   
     <a href="{{ route('admin.products.index') }}" class="breadcrumb-back-link mb-3 d-inline-block">
         <i class="fas fa-arrow-left me-1"></i> Kembali ke Produk
     </a>
 
-
-
+    {{-- Heading --}}
     <h5 class="heading">Tambah Produk Baru</h5>
-
-    {{-- Notifikasi Error --}}
-    @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @if ($errors->has('name'))
-                <li>Nama produk wajib diisi.</li>
-            @endif
-            @if ($errors->has('description'))
-                <li>Deskripsi produk wajib diisi.</li>
-            @endif
-            @if ($errors->has('price'))
-                <li>Harga dasar wajib diisi.</li>
-            @endif
-            @if ($errors->has('category_id'))
-                <li>Kategori produk wajib dipilih.</li>
-            @endif
-            @if ($errors->has('new_materials.*.name'))
-                <li>Nama bahan wajib diisi.</li>
-            @endif
-            @if ($errors->has('new_sizes.*.name'))
-                <li>Nama ukuran wajib diisi.</li>
-            @endif
-            @if ($errors->has('new_laminations.*.name'))
-                <li>Jenis laminasi wajib diisi.</li>
-            @endif
-        </ul>
+    
+    {{-- Allert --}}
+    <div id="formAlert" class="alert alert-danger d-none">
+        Field belum diisi semua. Silakan periksa kembali.
     </div>
-    @endif
-
 
     <form id="productForm" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -220,7 +193,7 @@
         
         <!-- Button Simpan Produk -->
         <div class="text-end mt-4">
-            <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#modalConfirmSubmit"> Simpan Produk </button>
+            <button type="button" class="btn btn-primary btn-md" onclick="handleBeforeSubmit()">Simpan Produk</button>
         </div>
     </form>
 
@@ -242,9 +215,6 @@
     </div>
   </div>
 </div>
-
-
-
 @endsection
 
 @push('scripts')
@@ -364,6 +334,42 @@ function removeRow(button) {
         row.remove();
     }
 }
+function handleBeforeSubmit() {
+    const form = document.getElementById('productForm');
+    const requiredFields = form.querySelectorAll('[required]');
+    let isValid = true;
+    let firstInvalid = null;
+
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            if (!firstInvalid) {
+                firstInvalid = field;
+            }
+            isValid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+
+    const alertBox = document.getElementById('formAlert');
+
+    if (!isValid) {
+        if (alertBox) alertBox.classList.remove('d-none');
+        if (firstInvalid) {
+            firstInvalid.focus();
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+
+    if (alertBox) alertBox.classList.add('d-none');
+
+    const modal = new bootstrap.Modal(document.getElementById('modalConfirmSubmit'));
+    modal.show();
+}
+
+
 function submitProductForm() {
     // Generate field tambahan ke form_fields_json sebelum submit
     const rows = document.querySelectorAll('#fieldTableBody tr');

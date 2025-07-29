@@ -55,6 +55,7 @@
                     </ul>
                 </div>
             </li>
+            
             <li class="nav-item mb-2">
                 <a class="nav-link d-flex align-items-center justify-content-between py-2  {{ request()->routeIs('admin.products.*') ? 'active' : '' }}" data-bs-toggle="collapse" href="#submenuProducts" role="button"
                     aria-expanded="{{ request()->routeIs('admin.products.*') ? 'true' : 'false' }}" aria-controls="submenuProducts">

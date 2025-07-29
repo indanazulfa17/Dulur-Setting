@@ -11,10 +11,10 @@
 
  {{-- PESANAN SECTION --}}
 <div class="card shadow-none border-0">
-    <div class="card-header bg-white border-bottom d-flex justify-content-between align-items-center">
+    <div class="card-header bg-light border-bottom d-flex justify-content-between align-items-center" style="border-radius: 12px; overflow: hidden;">
         <h5 class="heading mb-0">Detail Pesanan</h5>
     </div>
-    <div class="card-body">
+    <div class="card-body bg-light">
 
         {{-- INFORMASI PELANGGAN --}}
         <section class="mb-4 p-3 rounded shadow-sm bg-white">
@@ -79,7 +79,7 @@
 
                 <dt class="col-sm-3" style="font-family: 'Inter', sans-serif; color: #343F52; font-weight: 500">Total Harga</dt>
                 <dd class="col-sm-9" style="font-family: 'Inter', sans-serif; color: #60697B;">
-                    <span class="badge bg-success">Rp{{ number_format($order->total_price, 0, ',', '.') }}</span>
+                    <span class="" style="font-family: 'Inter', sans-serif; color: #FFA500; font-weight: 600">Rp{{ number_format($order->total_price, 0, ',', '.') }}</span>
                 </dd>
 
                 @if($order->custom_description)
@@ -90,26 +90,7 @@
                 @endif
             </dl>
         </section>
-        @php
-    $waMessage = "Halo, pesanan Anda untuk produk *" . ($order->product->name ?? '-') . "* saat ini berstatus: *" . ucfirst($order->status) . "*.";
-
-    if (!$order->payment_proof) {
-        $waMessage .= "\n\nTotal pesanan Anda *Rp" . number_format($order->total_price, 0, ',', '.') . "*. Silakan lakukan pembayaran dan upload bukti pembayaran.";
-    }
-
-    $waMessage .= "\n\nTerima kasih telah memesan di Dulur Setting!";
-
-    $waLink = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $order->whatsapp) . '?text=' . urlencode($waMessage);
-@endphp
-
-
-@if ($order->whatsapp)
-    <a href="{{ $waLink }}" target="_blank" class="btn btn-success">
-        <i class="fab fa-whatsapp me-1"></i> Kirim Status via WhatsApp
-    </a>
-@else
-    <p class="text-muted"><i class="fas fa-info-circle"></i> Nomor WhatsApp tidak tersedia.</p>
-@endif
+        
 
         {{-- PENGAMBILAN --}}
         <section class="mb-4 p-3 rounded shadow-sm bg-white">
@@ -180,10 +161,27 @@
                     <option value="selesai">Selesai</option>
                 </select>
             </div>
+            @php
+    $waMessage = "Halo, pesanan Anda untuk produk *" . ($order->product->name ?? '-') . "* saat ini berstatus: *" . ucfirst($order->status) . "*.";
 
-            <button type="submit" class="btn btn-primary">
-                Simpan Perubahan
-            </button>
+    if (!$order->payment_proof) {
+        $waMessage .= "\n\nTotal pesanan Anda *Rp" . number_format($order->total_price, 0, ',', '.') . "*. Silakan lakukan pembayaran dan upload bukti pembayaran.";
+    }
+
+    $waMessage .= "\n\nTerima kasih telah memesan di Dulur Setting!";
+
+    $waLink = 'https://wa.me/' . preg_replace('/[^0-9]/', '', $order->whatsapp) . '?text=' . urlencode($waMessage);
+@endphp
+
+<div class="d-flex justify-content-between flex-wrap gap-2 mt-4">
+    <a href="{{ $waLink }}" target="_blank" class="btn btn-whatsapp btn-md">
+        <i class="fab fa-whatsapp me-1"></i> Kirim Status via WhatsApp
+    </a>
+    <button type="submit" class="btn btn-primary btn-md">
+        Simpan Perubahan
+    </button>
+</div>
+
         </form>
     </section>
 @endif

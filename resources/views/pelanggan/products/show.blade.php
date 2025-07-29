@@ -50,7 +50,11 @@
                     <span class="text-muted">Harga mulai dari</span>
                     <span class="fs-5 fw-bold harga">Rp{{ number_format($product->base_price, 0, ',', '.') }}</span>
                 </p>
-                <form action="{{ route('pelanggan.products.preorder', $product->id) }}" method="POST" enctype="multipart/form-data">
+                <div id="formAlert" class="alert alert-danger d-none">
+    Field belum diisi semua. Silakan periksa kembali.
+</div>
+                <form id="productForm" action="{{ route('pelanggan.products.preorder', $product->id) }}" method="POST" enctype="multipart/form-data">
+
                     @csrf
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     {{-- Bahan --}}
@@ -217,7 +221,7 @@
                     {{-- Deskripsi Tambahan --}}
                     <div class="form-group mb-4">
                         <label for="custom_description" class="form-label">Deskripsi Tambahan</label>
-                        <textarea name="custom_description" id="custom_description" class="form-control" rows="4">{{ old('custom_description', $previousInput['custom_description'] ?? '') }}</textarea>
+                        <textarea name="custom_description" id="custom_description" class="form-control" rows="4" placeholder="Isi jika anda ingin custom">{{ old('custom_description', $previousInput['custom_description'] ?? '') }}</textarea>
                     </div>
                     {{-- Cek Harga --}}
                     <div class="price-check mt-3">
@@ -226,7 +230,8 @@
                     </div>
                     {{-- Button Pesan Sekarang --}}
                     <div class="text-center">
-                        <button type="submit" class="btn btn-md btn-primary mt-3 w-100">Pesan Sekarang</button>
+                        
+                        <button type="button" class="btn btn-md btn-primary mt-3 w-100" onclick="handleBeforeSubmit()">Pesan Sekarang</button>
                     </div>
                 </form>
             </div>
@@ -451,5 +456,65 @@
     document.addEventListener('DOMContentLoaded', function () {
         toggleDesignInput();
     });
+
+    function handleBeforeSubmit() {
+    const form = document.getElementById('productForm');
+    const requiredFields = form.querySelectorAll('[required]');
+    let isValid = true;
+    let firstInvalid = null;
+
+    // Cek input biasa
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('is-invalid');
+            if (!firstInvalid) firstInvalid = field;
+            isValid = false;
+        } else {
+            field.classList.remove('is-invalid');
+        }
+    });
+
+    // Cek desain
+    const designType = form.querySelector('input[name="design_input_type"]:checked');
+    const uploadInput = document.getElementById('design_file');
+    const linkInput = document.getElementById('design_link');
+
+    if (!designType) {
+        isValid = false;
+        if (!firstInvalid) firstInvalid = form.querySelector('input[name="design_input_type"]');
+    } else {
+        if (designType.value === 'upload' && !uploadInput.files.length) {
+            uploadInput.classList.add('is-invalid');
+            isValid = false;
+            if (!firstInvalid) firstInvalid = uploadInput;
+        } else {
+            uploadInput.classList.remove('is-invalid');
+        }
+
+        if (designType.value === 'link' && !linkInput.value.trim()) {
+            linkInput.classList.add('is-invalid');
+            isValid = false;
+            if (!firstInvalid) firstInvalid = linkInput;
+        } else {
+            linkInput.classList.remove('is-invalid');
+        }
+    }
+
+    const alertBox = document.getElementById('formAlert');
+    if (!isValid) {
+        if (alertBox) alertBox.classList.remove('d-none');
+        if (firstInvalid) {
+            firstInvalid.focus();
+            firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+    }
+
+    if (alertBox) alertBox.classList.add('d-none');
+
+    // ✅ Submit form jika valid
+    form.submit();
+}
+
 </script>
 @endsection

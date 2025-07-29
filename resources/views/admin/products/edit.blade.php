@@ -4,21 +4,11 @@
 
 
     {{-- Breadcrumb --}}
-    <nav aria-label="breadcrumb" class="mb-3">
-        <ol class="breadcrumb custom-breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('admin.dashboard') }}">
-                    <i class="fa-solid fa-house"></i> Dashboard
-                </a>
-            </li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('admin.products.index') }}"> Produk </a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page"> Edit Produk </li>
-        </ol>
-    </nav>
+   
+    <a href="{{ route('admin.products.index') }}" class="breadcrumb-back-link mb-3 d-inline-block">
+        <i class="fas fa-arrow-left me-1"></i> Kembali ke Produk
+    </a>
 
-    <div class="container-produk">
         <h5 class="heading">Edit Produk</h5>
 
         @if ($errors->any())
@@ -55,24 +45,14 @@
                         @if ($product->images->count() > 0)
                             <div class="mb-3 d-flex flex-wrap gap-4">
                                 @foreach($product->images as $image)
-    <div class="position-relative image-item" id="image-{{ $image->id }}">
-        <img src="{{ asset('storage/' . $image->image_path) }}" class="img-thumbnail" style="width: 120px;">
-        <button type="button"
-    class="btn btn-sm btn-danger rounded-circle d-flex align-items-center justify-content-center 
-        position-absolute top-0 start-100 translate-middle"
-    style="width: 28px; height: 28px;" {{-- atur ukuran supaya bulat total --}}
-    data-bs-toggle="modal"
-    data-bs-target="#confirmDeleteModal"
-    data-delete-url="{{ route('admin.products.images.destroy', $image->id) }}"
-    title="Hapus Gambar">
-    <i class="fa-solid fa-xmark" style="font-size: 16px"></i>
-</button>
-
-
-
-    </div>
-@endforeach
-
+                                <div class="position-relative image-item" id="image-{{ $image->id }}">
+                                    <img src="{{ asset('storage/' . $image->image_path) }}" class="img-thumbnail" style="width: 120px;">
+                                    <button type="button"
+                                        class="btn btn-sm btn-danger rounded-circle d-flex align-items-center justify-content-center position-absolute top-0 start-100 translate-middle"
+                                        style="width: 28px; height: 28px;" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-delete-url="{{ route('admin.products.images.destroy', $image->id) }}" title="Hapus Gambar"><i class="fa-solid fa-xmark" style="font-size: 16px"></i>
+                                    </button>
+                                </div>
+                                @endforeach
                             </div>
                         @else
                             <p class="text-muted">Belum ada gambar.</p>
@@ -301,7 +281,7 @@
             </div>
 
         </form>
-    </div>
+   
 
 <!-- Modal Konfirmasi Hapus -->
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">

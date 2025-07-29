@@ -24,7 +24,7 @@
     @endif
     {{-- TABLE --}}
     <div class="table-responsive">
-    <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded">
+    <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded" style="border-radius: 12px; overflow: hidden;">
         <thead class="bg-light text-dark">
             <tr>
                 <th style>No</th>
@@ -39,7 +39,7 @@
         <tbody>
             @forelse ($orders as $order)
                 <tr class="border-bottom">
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}</td>
                     <td>{{ $order->customer_name ?? '-' }}</td>
                     <td>{{ $order->product->name ?? '-' }}</td>
                     <td>{{ $order->quantity }}</td>
@@ -86,7 +86,10 @@
             @endforelse
         </tbody>
     </table>
-    
+    <!-- Paginasi -->
+<div class="mt-4 d-flex justify-content-center">
+    {{ $orders->links() }}
+</div>
 </div>
 
 

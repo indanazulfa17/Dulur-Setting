@@ -10,7 +10,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-
     {{-- Bootstrap CSS & Icons --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -21,19 +20,22 @@
 </head>
 <body>
 
+    <!-- ✅ Loading Spinner -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="page" style="display: none;">
     @include('layouts.partials.navbar-admin')
    
-
-
-     <div class="container-fluid">
+     <div class="container-fluid bg-light">
   
   <main id="mainContent" role="main">
     @yield('content')
   </main>
 
   </div>
-    {{-- Footer --}}
-    @include('layouts.partials.footer-admin')
+    </div>
 
     {{-- Bootstrap JS Bundle (cukup satu versi) --}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -98,6 +100,13 @@
 }
 
     </script>
+    <script>
+    window.addEventListener("load", function () {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("page").style.display = "block";
+    });
+</script>
+
     {{-- Include Modal Logout --}}
     @include('components.logout-modal')
     

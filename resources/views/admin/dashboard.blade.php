@@ -11,7 +11,7 @@
         </div>
         <div>
             <h2 class="mb-1 fw-semibold">Selamat datang kembali, Admin!</h2>
-            <p class="mb-0">Kelola pesanan dan produk pelanggan di sini.</p>
+            <p class="mb-0">Kelola produk dan pesanan pelanggan di sini.</p>
         </div>
     </div>
 </div>
@@ -54,7 +54,7 @@
 {{-- PESANAN TERBARU SECTION --}}
 <h5 class="heading">Pesanan Terbaru</h5>
     <div class="table-responsive">
-        <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded">
+        <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded" style="border-radius: 12px; overflow: hidden;">
             <thead class="bg-light text-dark">
                 <tr>
                     <th style="width: 50px;">No</th>
@@ -107,7 +107,11 @@
             </tbody>
         </table>
     </div>
-
+<div class="text-end mt-2">
+    <a href="{{ route('admin.orders.new') }}" class="btn btn-outline btn-sm">
+        Lihat Semua Pesanan
+    </a>
+</div>
 {{-- resources/views/components/delete-modal.blade.php --}}
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">

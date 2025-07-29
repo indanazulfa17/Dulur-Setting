@@ -2,21 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Size;
 use App\Models\Product;
 use App\Models\Category;
-use App\Models\ProductImage;
 use App\Models\Material;
-use App\Models\Size;
 use App\Models\Lamination;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with(['category', 'mainImage'])->latest()->get();
+        $products = Product::with('category', 'mainImage')->paginate(10);
+        
         return view('admin.products.index', compact('products'));
     }
 
@@ -147,6 +149,7 @@ class ProductController extends Controller
             'form_fields' => $formFields,
         ]);
 
+        Cache::forget("product.detail.$product->id");
         // ✅ Hapus gambar jika dicentang
 if ($request->has('delete_images')) {
     foreach ($request->delete_images as $imageId) {
@@ -244,9 +247,6 @@ if ($request->has('laminations')) {
     }
 }
 
-
-        // Update/hapus bahan, ukuran, laminasi (kode sama seperti sebelumnya, tetap dijaga)
-        // [Jika diperlukan, bagian ini bisa direfactor ke private function di kemudian hari]
 
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui.');
     }

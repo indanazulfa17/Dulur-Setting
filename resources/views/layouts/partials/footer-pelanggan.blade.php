@@ -19,7 +19,7 @@
         {{-- No Telepon --}}
         <div class="info-item">
           <i class="fas fa-phone-alt"></i>
-          <p><a href="tel:+6285222259229">+62 852-2225-9229</a></p>
+          <p><a href="tel:+6285222259229">+62 895-6128-11600</a></p>
         </div>
         {{-- Email --}}
         <div class="info-item">

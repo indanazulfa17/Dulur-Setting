@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg bg-white shadow-md py-3 position-relative">
   <div class="container d-flex align-items-center justify-content-between w-100">
     {{-- Logo --}}
-    <a class="navbar-brand d-flex align-items-center" href="#">
+    <a class="navbar-brand d-flex align-items-center" href="{{ route('pelanggan.beranda') }}">
       <img src="{{ asset('images/logo.png') }}" alt="Logo" width="100px" height="40px">
     </a>
     {{-- Togle (Mobile) --}}

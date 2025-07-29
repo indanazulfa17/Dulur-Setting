@@ -149,7 +149,7 @@
         </div>
         <div class="step-text ms-3">
           <p class="step-title fw-bold mb-1">3. Konfirmasi Pesanan</p>
-          <p class="step-description mb-0">Lihat detail pesanan anda, kemudian isi form : nama lengkap, no whatsapp, metode pengambilan, serta bisa juga upload file bukti pembayaran.</p>
+          <p class="step-description mb-0">Lihat detail pesanan anda, kemudian isi form : nama lengkap, no whatsapp, dan metode pengambilan.</p>
         </div>
       </div>
       <div class="step-item d-flex" data-aos="fade-up" data-aos-delay="300">
@@ -157,8 +157,8 @@
           <img src="{{ asset('images/cara-pemesanan/icon-4.png') }}" alt="Custom Desain">
         </div>
         <div class="step-text ms-3">
-          <p class="step-title fw-bold mb-1">4. Order</p>
-          <p class="step-description mb-0">Klik "Konfirmasi Sekarang" maka pesanan otomatis masuk ke dashboard admin dan info lanjut akan diarahkan ke WhatsApp.</p>
+          <p class="step-title fw-bold mb-1">4. Pembayaran</p>
+          <p class="step-description mb-0">Upload bukti pembayaran ke rekening tertuju dan klik "Konfirmasi Sekarang" maka pesanan otomatis masuk ke dashboard admin dan info lanjut akan diarahkan ke WhatsApp.</p>
         </div>
       </div>
     </div>
@@ -195,14 +195,7 @@
   </div>
 </section>
 
-<!-- Portofolio Section -->
-<!--<section class="portfolio-section bg-white">
-  <!-- Summary Portofolio 
-  <div class="container text-center">
-  <h5 class="mb-3">Portofolio</h5>
-  <h4 class="mb-4">Project yang telah dikerjakan Dulur Setting</h4>
-  </div> -->
-  <!-- Dataset Portofolio -->
+<!-- Dataset Portofolio -->
   <div class="container-fluid px-0 pb-5" id="portfolio-gallery">
     <div class="row g-2">
     {{-- Gambar 1 --}}
@@ -224,7 +217,6 @@
   <div class="text-center mt-3 d-sm-none">
     <button id="showGalleryBtn" class="btn btn-outline btn-sm">Lihat lainnya</button>
   </div>
-</div>
 
 {{-- KONSULTASI SECTION --}}
 <section class="consultation-section">

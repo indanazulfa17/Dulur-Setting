@@ -26,10 +26,10 @@
     @endif
 
 {{-- Table Card --}}
-<div class="card border-0 shadow-sm">
-    <div class="card-body p-0">
+<div class="card border-0 shadow-sm" style="border-radius: 12px;">
+    <div class="card-body p-0" style="border-radius: 12px;">
         <div class="table-responsive">
-            <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm rounded mb-0">
+            <table class="table table-custom-font align-middle table-hover table-borderless shadow-sm mb-0" style="border-radius: 12px; overflow: hidden;">
                 <thead class="bg-light text-dark">
                     <tr>
                         <th style="width: 50px;">No</th>
@@ -43,7 +43,8 @@
                 <tbody>
                     @forelse ($products as $i => $product)
                     <tr class="border-bottom">
-                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $products->firstItem() + $i }}</td>
+
                         <td>{{ $product->name }}</td>
                         <td>{{ $product->category->name ?? '-' }}</td>
                         <td>Rp {{ number_format($product->base_price, 0, ',', '.') }}</td>
@@ -73,6 +74,10 @@
                     @endforelse
                 </tbody>
             </table>
+            <!-- Paginasi -->
+<div class="mt-4 d-flex justify-content-center">
+    {{ $products->links() }}
+</div>
         </div>
     </div>
 </div>

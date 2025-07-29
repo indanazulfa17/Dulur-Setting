@@ -16,7 +16,7 @@ class OrderController extends Controller
         $orders = Order::with(['product', 'size', 'material', 'lamination'])
             ->whereIn('status', ['selesai', 'dibatalkan'])
             ->latest()
-            ->get();
+            ->paginate(10);
 
         return view('admin.orders.index', compact('orders'));
     }
